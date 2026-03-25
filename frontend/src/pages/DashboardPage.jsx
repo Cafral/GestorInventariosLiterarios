@@ -1,6 +1,7 @@
 import { useState, useEffect, useCallback } from 'react'
 import { obrasApi } from '../api/apiClient'
 import ObraCard from '../components/ObraCard'
+import '../estilos/DashboardPage.css'; // Importación final para unificar el diseño
 
 const CARRERAS = [
     { id: null, nombre: 'Todas' },
@@ -34,35 +35,34 @@ export default function DashboardPage() {
     }, [cargar])
 
     return (
-        <div>
-            <h2 style={{ marginBottom: '1rem' }}>📖 Mejores Obras</h2>
+        <div className="dashboard-wrapper">
+            {/* Título principal con clase CSS */}
+            <h2 className="dashboard-main-title">Mejores Obras</h2>
 
-            <div style={{ display: 'flex', gap: 8, marginBottom: '1.5rem', flexWrap: 'wrap' }}>
+            {/* Contenedor de filtros de carrera */}
+            <div className="dashboard-filters-container">
                 {CARRERAS.map(c => (
-                    <button key={c.nombre} onClick={() => setCarrera(c.id)}
-                        style={{
-                            padding: '6px 18px', borderRadius: 9999, cursor: 'pointer',
-                            border: '1px solid #3b82f6', fontSize: '0.85rem',
-                            background: carrera === c.id ? '#3b82f6' : '#fff',
-                            color: carrera === c.id ? '#fff' : '#3b82f6'
-                        }}>
+                    <button
+                        key={c.nombre}
+                        onClick={() => setCarrera(c.id)}
+                        className={`dashboard-filter-btn ${carrera === c.id ? 'is-active' : 'is-inactive'}`}
+                    >
                         {c.nombre}
                     </button>
                 ))}
             </div>
 
-            {cargando && <p style={{ color: '#94a3b8' }}>Cargando obras...</p>}
-            {error && <p style={{ color: '#dc2626' }}>Error: {error}</p>}
+            {/* Estados de carga, error o vacío con clases específicas */}
+            {cargando && <p className="dashboard-state-msg is-loading">Cargando las obras del ITQ...</p>}
+
+            {error && <p className="dashboard-state-msg is-error">Ocurrió un error: {error}</p>}
 
             {!cargando && !error && obras.length === 0 && (
-                <p style={{ color: '#94a3b8' }}>No hay obras registradas aún.</p>
+                <p className="dashboard-state-msg is-empty">No hay obras registradas en esta categoría aún.</p>
             )}
 
-            <div style={{
-                display: 'grid',
-                gridTemplateColumns: 'repeat(auto-fill, minmax(230px, 1fr))',
-                gap: '1rem'
-            }}>
+            {/* Grid principal de visualización */}
+            <div className="dashboard-grid-layout">
                 {obras.map(o => (
                     <ObraCard key={o.id} obra={o} onActualizar={cargar} />
                 ))}

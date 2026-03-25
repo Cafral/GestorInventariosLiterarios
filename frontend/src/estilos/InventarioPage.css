@@ -1,0 +1,215 @@
+/* Contenedor principal */
+.inventory-page-container {
+    padding: 20px;
+    background-color: #ffffff;
+}
+
+/* Título principal */
+.inventory-main-title {
+    color: #000000;
+    text-transform: uppercase;
+    border-bottom: 4px solid #ff0000;
+    /* Subrayado grueso en rojo */
+    display: inline-block;
+    padding-bottom: 5px;
+    margin-bottom: 2rem;
+}
+
+/* Mensajes de Alerta */
+.inventory-alert-msg {
+    padding: 12px 18px;
+    border-radius: 4px;
+    margin-bottom: 1.5rem;
+    font-size: 0.9rem;
+    font-weight: bold;
+    border: 1px solid #000000;
+}
+
+.inventory-alert-msg.is-error {
+    background-color: #ff0000;
+    /* Fondo rojo para errores */
+    color: #ffffff;
+    /* Texto blanco */
+}
+
+.inventory-alert-msg.is-success {
+    background-color: #000000;
+    /* Fondo negro para éxito */
+    color: #ffffff;
+    /* Texto blanco */
+    border-color: #ff0000;
+    /* Borde rojo de acento */
+}
+
+/* Grid de Formularios */
+.inventory-forms-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    /* Dos columnas como el original */
+    gap: 2rem;
+    margin-bottom: 2rem;
+}
+
+.inventory-card-form {
+    background-color: #ffffff;
+    border: 2px solid #000000;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 6px 6px 0px #ff0000;
+    /* Sombra roja sólida */
+}
+
+.inventory-form-title {
+    margin-bottom: 1rem;
+    color: #000000;
+    font-weight: 800;
+    text-transform: uppercase;
+}
+
+.inventory-form-element {
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+}
+
+/* Estilos de Inputs y Selects */
+.inventory-input {
+    padding: 10px 12px;
+    border: 1px solid #000000;
+    border-radius: 4px;
+    font-size: 0.9rem;
+    width: 100%;
+    box-sizing: border-box;
+    transition: all 0.2s;
+}
+
+.inventory-input:focus {
+    outline: none;
+    border-color: #ff0000;
+    box-shadow: 0 0 5px rgba(255, 0, 0, 0.2);
+}
+
+/* Botones genéricos */
+.inventory-btn {
+    color: #ffffff;
+    border: none;
+    border-radius: 4px;
+    padding: 12px;
+    cursor: pointer;
+    font-size: 0.9rem;
+    font-weight: bold;
+    text-transform: uppercase;
+    transition: transform 0.2s, background-color 0.3s;
+}
+
+.inventory-btn:active {
+    transform: scale(0.98);
+}
+
+.inventory-btn-lote {
+    background-color: #000000;
+    /* Ingresar lote en Negro */
+    border: 1px solid #000000;
+}
+
+.inventory-btn-lote:hover {
+    background-color: #ff0000;
+    /* Cambio a Rojo al hover */
+}
+
+.inventory-btn-venta {
+    background-color: #ff0000;
+    /* Vender en Rojo */
+}
+
+.inventory-btn-venta:hover {
+    background-color: #000000;
+    /* Cambio a Negro al hover */
+}
+
+/* Sección de Reporte */
+.inventory-section-subtitle {
+    margin: 2rem 0 1rem;
+    color: #000000;
+    border-left: 5px solid #ff0000;
+    padding-left: 10px;
+}
+
+.inventory-report-block {
+    background-color: #000000;
+    /* Bloque de reporte en negro */
+    color: #ffffff;
+    /* Texto en blanco para contraste técnico */
+    border: 1px solid #ff0000;
+    border-radius: 8px;
+    padding: 1.5rem;
+    font-size: 0.85rem;
+    white-space: pre-wrap;
+    margin-bottom: 2rem;
+    font-family: 'Courier New', Courier, monospace;
+}
+
+/* Tabla de Transacciones */
+.inventory-table-wrapper {
+    border: 1px solid #000000;
+    border-radius: 8px;
+    overflow: hidden;
+}
+
+.inventory-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 0.85rem;
+}
+
+.inventory-table-header {
+    background-color: #000000;
+    /* Cabecera negra */
+}
+
+.inventory-th {
+    padding: 12px;
+    text-align: left;
+    color: #ffffff;
+    /* Letras blancas */
+    text-transform: uppercase;
+    font-weight: bold;
+}
+
+.inventory-tr {
+    background-color: #ffffff;
+    border-bottom: 1px solid #e0e0e0;
+}
+
+.inventory-tr:hover {
+    background-color: #fff1f1;
+    /* Resaltado suave en rojo */
+}
+
+.inventory-td {
+    padding: 10px 12px;
+    color: #000000;
+}
+
+.inventory-td-type {
+    padding: 10px 12px;
+    font-weight: bold;
+}
+
+.type-compra {
+    color: #000000;
+}
+
+.type-venta {
+    color: #ff0000;
+}
+
+.inventory-text-red {
+    color: #ff0000;
+    font-weight: bold;
+}
+
+.inventory-date {
+    color: #666666;
+    font-style: italic;
+}

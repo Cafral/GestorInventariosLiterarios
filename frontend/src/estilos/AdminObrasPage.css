@@ -1,0 +1,200 @@
+/* Contenedor principal de la página */
+.admin-container {
+    padding: 20px;
+    background-color: #ffffff;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+/* Títulos principales */
+.admin-main-title {
+    color: #000000;
+    border-left: 5px solid #ff0000;
+    /* Detalle en rojo */
+    padding-left: 15px;
+    margin-bottom: 25px;
+    text-transform: uppercase;
+}
+
+.admin-subtitle {
+    color: #000000;
+    margin-top: 30px;
+    border-bottom: 2px solid #000000;
+    display: inline-block;
+    padding-bottom: 5px;
+}
+
+/* Grid del Formulario */
+.admin-form-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    /* Dos columnas como pediste */
+    gap: 12px 24px;
+    max-width: 800px;
+    background-color: #f9f9f9;
+    padding: 20px;
+    border: 1px solid #000000;
+    border-radius: 8px;
+}
+
+/* Grupos de etiquetas e inputs */
+.admin-form-group {
+    display: flex;
+    flex-direction: column;
+}
+
+.admin-label {
+    display: block;
+    font-size: 0.8rem;
+    color: #000000;
+    font-weight: bold;
+    margin-bottom: 4px;
+    text-transform: uppercase;
+}
+
+.admin-input {
+    width: 100%;
+    padding: 8px 12px;
+    border: 1px solid #000000;
+    /* Borde negro */
+    border-radius: 4px;
+    font-size: 0.9rem;
+    box-sizing: border-box;
+    transition: border-color 0.3s;
+}
+
+.admin-input:focus {
+    outline: none;
+    border-color: #ff0000;
+    /* Al escribir, el borde se vuelve rojo */
+}
+
+/* Acciones del formulario (Botón y Mensajes) */
+.admin-form-actions {
+    grid-column: 1 / -1;
+    /* Ocupa todo el ancho */
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    margin-top: 10px;
+}
+
+.admin-btn-submit {
+    background-color: #000000;
+    /* Botón negro */
+    color: #ffffff;
+    /* Letras blancas */
+    border: none;
+    border-radius: 4px;
+    padding: 10px 25px;
+    cursor: pointer;
+    font-weight: bold;
+    text-transform: uppercase;
+    transition: background-color 0.3s;
+}
+
+.admin-btn-submit:hover {
+    background-color: #ff0000;
+    /* Al pasar el mouse se vuelve rojo */
+}
+
+/* Mensajes dinámicos */
+.admin-msg-error {
+    color: #ff0000;
+    font-size: 0.85rem;
+    font-weight: bold;
+}
+
+.admin-msg-success {
+    color: #000000;
+    font-size: 0.85rem;
+    font-weight: bold;
+    text-decoration: underline #ff0000;
+}
+
+/* Estilos de la Tabla */
+.admin-table-wrapper {
+    margin-top: 20px;
+    overflow-x: auto;
+}
+
+.admin-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 0.85rem;
+    border: 1px solid #000000;
+}
+
+.admin-table-header-row {
+    background-color: #000000;
+    /* Cabecera negra */
+}
+
+.admin-th {
+    padding: 12px 10px;
+    text-align: left;
+    color: #ffffff;
+    /* Texto blanco en cabecera */
+    font-weight: 600;
+    text-transform: uppercase;
+}
+
+.admin-td {
+    padding: 10px;
+    border-bottom: 1px solid #e0e0e0;
+    color: #000000;
+}
+
+.admin-td-bold {
+    font-weight: bold;
+}
+
+.admin-text-red {
+    color: #ff0000;
+    font-weight: bold;
+}
+
+.admin-table-row:hover {
+    background-color: #fff1f1;
+    /* Un toque rojo muy suave al pasar por la fila */
+}
+
+/* Elementos dentro de la tabla */
+.admin-status-badge {
+    background-color: #000000;
+    color: #ffffff;
+    padding: 3px 8px;
+    border-radius: 4px;
+    font-size: 0.7rem;
+}
+
+.admin-actions-cell {
+    display: flex;
+    gap: 8px;
+    align-items: center;
+}
+
+.admin-select-status {
+    padding: 4px 8px;
+    border: 1px solid #000000;
+    border-radius: 4px;
+    background: white;
+    font-size: 0.8rem;
+}
+
+.admin-btn-delete {
+    background-color: #ff0000;
+    /* Botón de eliminar en rojo */
+    color: #ffffff;
+    border: none;
+    border-radius: 4px;
+    padding: 5px 12px;
+    cursor: pointer;
+    font-weight: bold;
+    transition: transform 0.2s;
+}
+
+.admin-btn-delete:hover {
+    background-color: #000000;
+    /* Cambia a negro al confirmar peligro */
+    transform: scale(1.1);
+}

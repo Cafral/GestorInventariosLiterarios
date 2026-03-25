@@ -1,0 +1,96 @@
+/* Contenedor general del Dashboard */
+.dashboard-wrapper {
+    padding: 1.5rem;
+    background-color: #ffffff;
+    /* Fondo blanco para limpieza */
+}
+
+/* Título de la página */
+.dashboard-main-title {
+    color: #000000;
+    font-weight: 900;
+    text-transform: uppercase;
+    margin-bottom: 1.5rem;
+    letter-spacing: -1px;
+    border-left: 8px solid #ff0000;
+    /* Detalle lateral en rojo */
+    padding-left: 15px;
+}
+
+/* Contenedor de los botones de filtro */
+.dashboard-filters-container {
+    display: flex;
+    gap: 12px;
+    margin-bottom: 2rem;
+    flex-wrap: wrap;
+}
+
+/* Botón de filtro base */
+.dashboard-filter-btn {
+    padding: 8px 22px;
+    border-radius: 50px;
+    /* Estilo de píldora */
+    cursor: pointer;
+    font-size: 0.85rem;
+    font-weight: bold;
+    text-transform: uppercase;
+    transition: all 0.3s ease;
+    border: 2px solid #000000;
+}
+
+/* Botón cuando está activo (Carrera seleccionada) */
+.dashboard-filter-btn.is-active {
+    background-color: #ff0000;
+    /* Fondo rojo para el activo */
+    color: #ffffff;
+    /* Texto blanco */
+    border-color: #ff0000;
+    box-shadow: 0 4px 10px rgba(255, 0, 0, 0.3);
+}
+
+/* Botón cuando no está seleccionado */
+.dashboard-filter-btn.is-inactive {
+    background-color: #ffffff;
+    color: #000000;
+    border-color: #000000;
+}
+
+.dashboard-filter-btn.is-inactive:hover {
+    background-color: #000000;
+    color: #ffffff;
+}
+
+/* Mensajes de estado (Cargando, Error, Vacío) */
+.dashboard-state-msg {
+    text-align: center;
+    padding: 2rem;
+    font-size: 1rem;
+    font-weight: 600;
+    border-radius: 8px;
+    border: 1px dashed #000000;
+}
+
+.is-loading {
+    color: #000000;
+    font-style: italic;
+}
+
+.is-error {
+    background-color: #ff0000;
+    color: #ffffff;
+    border-style: solid;
+}
+
+.is-empty {
+    color: #666666;
+    background-color: #f9f9f9;
+}
+
+/* Layout del Grid de tarjetas */
+.dashboard-grid-layout {
+    display: grid;
+    /* Mantenemos tu lógica de grid responsivo */
+    grid-template-columns: repeat(auto-fill, minmax(230px, 1fr));
+    gap: 1.5rem;
+    margin-top: 1rem;
+}

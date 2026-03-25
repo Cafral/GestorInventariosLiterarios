@@ -45,7 +45,8 @@ public class ObraController implements HttpHandler {
                         str(data, "isbn13"),    str(data, "plataforma"),
                         dbl(data, "precioAdquisicion"),
                         num(data, "carreraId"), num(data, "autorId"),
-                        str(data, "editorial"), num(data, "anio")
+                        str(data, "editorial"), num(data, "anio"),
+                        str(data, "imagen_url")
                 );
                 send(ex, resultado.startsWith("ERROR") ? 400 : 201,
                         "{\"resultado\":\"" + resultado + "\"}");

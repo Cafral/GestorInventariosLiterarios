@@ -1,0 +1,172 @@
+/* Contenedor central de la página */
+.detail-page-container {
+    max-width: 600px;
+    margin: 2rem auto;
+    padding: 2rem;
+    background-color: #ffffff;
+    border: 2px solid #000000;
+    box-shadow: 8px 8px 0px #000000; /* Sombra sólida estilo brutalista */
+}
+
+/* Link de volver */
+.detail-back-link {
+    color: #ff0000; /* Rojo para destacar el retorno */
+    text-decoration: none;
+    font-size: 0.9rem;
+    font-weight: bold;
+    text-transform: uppercase;
+}
+
+.detail-back-link:hover {
+    text-decoration: underline;
+}
+
+/* Título de la obra */
+.detail-main-title {
+    margin: 1rem 0 0.5rem;
+    color: #000000;
+    font-size: 1.8rem;
+    font-weight: 900;
+    text-transform: uppercase;
+}
+
+/* Estrellas de calificación */
+.detail-stars-wrapper {
+    display: flex;
+    gap: 4px;
+    margin-bottom: 1.5rem;
+    align-items: center;
+}
+
+.detail-star-icon {
+    font-size: 1.5rem;
+}
+
+.detail-star-icon.is-active {
+    color: #ff0000; /* Estrellas activas en Rojo */
+}
+
+.detail-star-icon.is-inactive {
+    color: #000000; /* Estrellas inactivas en Negro */
+    opacity: 0.2;
+}
+
+.detail-votes-count {
+    font-size: 0.8rem;
+    color: #000000;
+    margin-left: 10px;
+    font-weight: 600;
+}
+
+/* Estilos de la tabla de información */
+.detail-info-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 0.95rem;
+    margin-bottom: 2rem;
+    border: 1px solid #000000;
+}
+
+.detail-table-row {
+    border-bottom: 1px solid #000000;
+}
+
+.detail-table-row:last-child {
+    border-bottom: none;
+}
+
+.detail-table-label {
+    padding: 10px 12px;
+    color: #ffffff;
+    background-color: #000000; /* Etiquetas con fondo negro */
+    width: 40%;
+    font-weight: bold;
+    text-transform: uppercase;
+    font-size: 0.75rem;
+}
+
+.detail-table-value {
+    padding: 10px 12px;
+    color: #000000;
+    font-weight: 600;
+}
+
+/* Subtítulos de secciones */
+.detail-section-subtitle {
+    font-size: 1.1rem;
+    color: #000000;
+    text-transform: uppercase;
+    border-left: 5px solid #ff0000;
+    padding-left: 10px;
+    margin-bottom: 1rem;
+}
+
+/* Historial de estados */
+.detail-history-list {
+    padding-left: 0;
+    list-style: none;
+    font-size: 0.9rem;
+    margin-bottom: 2rem;
+}
+
+.detail-history-item {
+    padding: 8px;
+    border-left: 2px solid #000000;
+    margin-bottom: 6px;
+    background-color: #fffafa;
+}
+
+.detail-history-status {
+    color: #ff0000; /* El estado actual en rojo */
+    font-weight: bold;
+}
+
+.detail-history-date {
+    color: #000000;
+    font-weight: 600;
+    font-size: 0.8rem;
+}
+
+.detail-history-notes {
+    color: #666666;
+    font-style: italic;
+    font-size: 0.8rem;
+}
+
+/* Sección QR */
+.detail-qr-section {
+    text-align: center;
+    padding: 1.5rem;
+    background-color: #f9f9f9;
+    border: 2px dashed #000000;
+}
+
+.detail-qr-container {
+    background-color: #ffffff;
+    padding: 10px;
+    display: inline-block;
+    border: 1px solid #000000;
+}
+
+.detail-qr-footer-text {
+    font-size: 0.75rem;
+    color: #000000;
+    margin-top: 10px;
+    font-weight: bold;
+}
+
+/* Mensajes de carga y error */
+.detail-error-msg {
+    color: #ffffff;
+    background-color: #ff0000;
+    padding: 1rem;
+    text-align: center;
+    font-weight: bold;
+}
+
+.detail-loading-msg {
+    color: #000000;
+    text-align: center;
+    padding: 2rem;
+    font-style: italic;
+}

@@ -16,7 +16,8 @@ public class ObraService {
     }
 
     public String crearObra(String titulo, String genero, String isbn13, String plataforma, double costoAdq,
-                            int carreraId, int autorId, String editorial, int anio) throws SQLException{
+                            int carreraId, int autorId, String editorial, int anio, String imagenUrl) throws SQLException{
+
         if (!val.validarISBN13(isbn13)) return "ERROR: ISBN-13 invalido";
         if (!val.validarAPA(titulo, String.valueOf(autorId), editorial, anio)) return "ERROR: Datos APA incompletos";
 
@@ -24,7 +25,7 @@ public class ObraService {
 
         String sql = """
                 INSERT INTO obras (titulo, genero, isbn13, plataforma, precio_adquisicion, pvp, stock_actual,
-                rating_promedio, total_votos, imagen_url, carrera_id, autor_id, editorial, anio) VALUES (?,?,?,?,?,?,0,0,0,'',?,?,?,?)""";
+                rating_promedio, total_votos, imagen_url, carrera_id, autor_id, editorial, anio) VALUES (?,?,?,?,?,?,0,0,0,?,?,?,?,?)""";
         int obraId;
         try (PreparedStatement ps = conn().prepareStatement(sql, Statement.RETURN_GENERATED_KEYS)){
             ps.setString(1, titulo);
@@ -33,10 +34,11 @@ public class ObraService {
             ps.setString(4, plataforma);
             ps.setDouble(5, costoAdq);
             ps.setDouble(6, pvp);
-            ps.setInt(7, carreraId);
-            ps.setInt(8, autorId);
-            ps.setString(9, editorial);
-            ps.setInt(10, anio);
+            ps.setString(7, imagenUrl);
+            ps.setInt(8, carreraId);
+            ps.setInt(9, autorId);
+            ps.setString(10, editorial);
+            ps.setInt(11, anio);
             ps.executeUpdate();
 
             ResultSet keys = ps.getGeneratedKeys();
