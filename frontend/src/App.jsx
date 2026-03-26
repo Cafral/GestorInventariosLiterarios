@@ -11,7 +11,7 @@ export default function App() {
   return (
     <BrowserRouter>
       <NavBar />
-      <div style={{ padding: '1.5rem 2rem' }}>
+      <div style={{ padding: '15px 20px' }}>
         <Routes>
           <Route path="/login" element={<LoginPage />} />
           <Route path="/" element={<DashboardPage />} />
