@@ -1,6 +1,6 @@
 import { Link, useNavigate } from 'react-router-dom'
 import { useAuth } from '../context/AuthContext'
-import '../estilos/NavBar.css'; // Asegúrate de importar tu archivo CSS
+import '../estilos/Navbar.css'; // Asegúrate de importar tu archivo CSS
 
 export default function NavBar() {
     const { usuario, logout } = useAuth()
