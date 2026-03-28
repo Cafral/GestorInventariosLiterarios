@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react'
 import { usuariosApi, carrerasApi } from '../api/apiClient'
-import '../estilos/GestionUsuariosPage'
+import '../estilos/GestionUsuariosPage.css'
 
 const FORM_INIT = {
     nombre: '', email: '', password: '', confirmar: '',
