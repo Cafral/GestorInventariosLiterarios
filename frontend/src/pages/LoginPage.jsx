@@ -139,7 +139,7 @@ export default function LoginPage() {
                         </button>
 
                         <div className="login-demo-info">
-                            <p>Demo admin: admin1@itq.edu.ec / admin123</p>
+                            <p>Demo invitado: invitado@gmail.com / invitado123</p>
                         </div>
                     </form>
 
