@@ -1,215 +1,180 @@
-/* Contenedor principal */
+/* RESET */
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    background: #000;
+    color: #fff;
+    font-family: Arial, sans-serif;
+}
+
+/* CONTENEDOR */
 .inventory-page-container {
     padding: 20px;
-    background-color: #ffffff;
 }
 
-/* Título principal */
+/* TITULOS */
 .inventory-main-title {
-    color: #000000;
-    text-transform: uppercase;
-    border-bottom: 4px solid #ff0000;
-    /* Subrayado grueso en rojo */
-    display: inline-block;
-    padding-bottom: 5px;
-    margin-bottom: 2rem;
+    text-align: center;
+    color: #e50914;
+    margin-bottom: 15px;
 }
 
-/* Mensajes de Alerta */
+.inventory-section-subtitle {
+    margin: 20px 0 10px;
+}
+
+/* INFO USUARIO */
+.inventory-user-info {
+    color: #888;
+    font-size: 13px;
+    margin-bottom: 16px;
+}
+
+/* MENSAJES */
 .inventory-alert-msg {
-    padding: 12px 18px;
-    border-radius: 4px;
-    margin-bottom: 1.5rem;
-    font-size: 0.9rem;
-    font-weight: bold;
-    border: 1px solid #000000;
+    margin-bottom: 15px;
+    padding: 10px;
+    border-radius: 5px;
 }
 
-.inventory-alert-msg.is-error {
-    background-color: #ff0000;
-    /* Fondo rojo para errores */
-    color: #ffffff;
-    /* Texto blanco */
+.is-success {
+    background: #1e7e34;
 }
 
-.inventory-alert-msg.is-success {
-    background-color: #000000;
-    /* Fondo negro para éxito */
-    color: #ffffff;
-    /* Texto blanco */
-    border-color: #ff0000;
-    /* Borde rojo de acento */
+.is-error {
+    background: #a71d2a;
 }
 
-/* Grid de Formularios */
+/* GRID FORMULARIOS */
 .inventory-forms-grid {
     display: grid;
     grid-template-columns: 1fr 1fr;
-    /* Dos columnas como el original */
-    gap: 2rem;
-    margin-bottom: 2rem;
+    gap: 20px;
 }
 
+/* CARD */
 .inventory-card-form {
-    background-color: #ffffff;
-    border: 2px solid #000000;
-    padding: 20px;
+    background: #111;
+    padding: 15px;
     border-radius: 8px;
-    box-shadow: 6px 6px 0px #ff0000;
-    /* Sombra roja sólida */
+    border: 1px solid #222;
 }
 
 .inventory-form-title {
-    margin-bottom: 1rem;
-    color: #000000;
-    font-weight: 800;
-    text-transform: uppercase;
+    margin-bottom: 10px;
 }
 
+/* FORM */
 .inventory-form-element {
     display: flex;
     flex-direction: column;
-    gap: 0.75rem;
+    gap: 10px;
 }
 
-/* Estilos de Inputs y Selects */
+/* INPUTS */
 .inventory-input {
-    padding: 10px 12px;
-    border: 1px solid #000000;
+    padding: 8px;
+    border: 1px solid #444;
     border-radius: 4px;
-    font-size: 0.9rem;
-    width: 100%;
-    box-sizing: border-box;
-    transition: all 0.2s;
+    background: #000;
+    color: #fff;
 }
 
-.inventory-input:focus {
-    outline: none;
-    border-color: #ff0000;
-    box-shadow: 0 0 5px rgba(255, 0, 0, 0.2);
-}
-
-/* Botones genéricos */
+/* BOTONES */
 .inventory-btn {
-    color: #ffffff;
+    padding: 10px;
     border: none;
-    border-radius: 4px;
-    padding: 12px;
     cursor: pointer;
-    font-size: 0.9rem;
-    font-weight: bold;
-    text-transform: uppercase;
-    transition: transform 0.2s, background-color 0.3s;
-}
-
-.inventory-btn:active {
-    transform: scale(0.98);
+    border-radius: 5px;
+    color: #fff;
 }
 
 .inventory-btn-lote {
-    background-color: #000000;
-    /* Ingresar lote en Negro */
-    border: 1px solid #000000;
-}
-
-.inventory-btn-lote:hover {
-    background-color: #ff0000;
-    /* Cambio a Rojo al hover */
+    background: #e50914;
 }
 
 .inventory-btn-venta {
-    background-color: #ff0000;
-    /* Vender en Rojo */
+    background: #ff2e2e;
 }
 
-.inventory-btn-venta:hover {
-    background-color: #000000;
-    /* Cambio a Negro al hover */
+/* ERRORES */
+.input-error {
+    border: 1px solid red;
 }
 
-/* Sección de Reporte */
-.inventory-section-subtitle {
-    margin: 2rem 0 1rem;
-    color: #000000;
-    border-left: 5px solid #ff0000;
-    padding-left: 10px;
+.field-error {
+    color: #ff4d4d;
+    font-size: 12px;
 }
 
+/* REPORTE */
 .inventory-report-block {
-    background-color: #000000;
-    /* Bloque de reporte en negro */
-    color: #ffffff;
-    /* Texto en blanco para contraste técnico */
-    border: 1px solid #ff0000;
-    border-radius: 8px;
-    padding: 1.5rem;
-    font-size: 0.85rem;
-    white-space: pre-wrap;
-    margin-bottom: 2rem;
-    font-family: 'Courier New', Courier, monospace;
+    background: #111;
+    padding: 15px;
+    border-radius: 6px;
+    margin-top: 10px;
+    overflow-x: auto;
 }
 
-/* Tabla de Transacciones */
+/* TABLA */
 .inventory-table-wrapper {
-    border: 1px solid #000000;
-    border-radius: 8px;
-    overflow: hidden;
+    overflow-x: auto;
 }
 
 .inventory-table {
     width: 100%;
     border-collapse: collapse;
-    font-size: 0.85rem;
-}
-
-.inventory-table-header {
-    background-color: #000000;
-    /* Cabecera negra */
+    margin-top: 10px;
 }
 
 .inventory-th {
-    padding: 12px;
-    text-align: left;
-    color: #ffffff;
-    /* Letras blancas */
-    text-transform: uppercase;
-    font-weight: bold;
-}
-
-.inventory-tr {
-    background-color: #ffffff;
-    border-bottom: 1px solid #e0e0e0;
-}
-
-.inventory-tr:hover {
-    background-color: #fff1f1;
-    /* Resaltado suave en rojo */
+    background: #111;
+    padding: 10px;
+    border-bottom: 2px solid #e50914;
 }
 
 .inventory-td {
-    padding: 10px 12px;
-    color: #000000;
+    padding: 10px;
+    border-bottom: 1px solid #333;
 }
 
+.inventory-text-red {
+    color: #e50914;
+}
+
+/* TIPOS */
 .inventory-td-type {
-    padding: 10px 12px;
     font-weight: bold;
 }
 
 .type-compra {
-    color: #000000;
+    color: #2ecc71;
 }
 
 .type-venta {
-    color: #ff0000;
+    color: #e50914;
 }
 
-.inventory-text-red {
-    color: #ff0000;
-    font-weight: bold;
-}
-
+/* FECHA */
 .inventory-date {
-    color: #666666;
-    font-style: italic;
+    font-size: 12px;
+}
+
+/* RESPONSIVE */
+@media (max-width: 768px) {
+    .inventory-forms-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .inventory-btn {
+        width: 100%;
+    }
+
+    .inventory-table {
+        font-size: 12px;
+    }
 }

@@ -92,7 +92,7 @@ export default function InventarioPage() {
             <h2 className="inventory-main-title">Inventario</h2>
 
             {/* Operador en sesión */}
-            <p style={{ color: '#888', fontSize: '13px', marginBottom: '16px' }}>
+            <p className="inventory-user-info">
                 Operaciones registradas como: <strong>{usuario?.nombre}</strong>
             </p>
 
@@ -174,13 +174,13 @@ export default function InventarioPage() {
             </div>
 
             {/* Reporte de stock */}
-            <h3 className="inventory-section-subtitle">📊 Reporte de Stock</h3>
+            <h3 className="inventory-section-subtitle">Reporte de Stock</h3>
             <pre className="inventory-report-block">
                 {reporte || 'Sin datos disponibles'}
             </pre>
 
             {/* Historial de transacciones */}
-            <h3 className="inventory-section-subtitle">🔄 Transacciones</h3>
+            <h3 className="inventory-section-subtitle">Transacciones</h3>
             <div className="inventory-table-wrapper">
                 <table className="inventory-table">
                     <thead>

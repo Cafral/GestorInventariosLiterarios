@@ -1,96 +1,79 @@
-/* Contenedor general del Dashboard */
+/* CONTENEDOR */
 .dashboard-wrapper {
-    padding: 1.5rem;
-    background-color: #ffffff;
-    /* Fondo blanco para limpieza */
+    padding: 20px;
 }
 
-/* Título de la página */
+/* TITULO */
 .dashboard-main-title {
-    color: #000000;
-    font-weight: 900;
-    text-transform: uppercase;
-    margin-bottom: 1.5rem;
-    letter-spacing: -1px;
-    border-left: 8px solid #ff0000;
-    /* Detalle lateral en rojo */
-    padding-left: 15px;
+    text-align: center;
+    color: #e50914;
+    margin-bottom: 20px;
 }
 
-/* Contenedor de los botones de filtro */
+/* FILTROS */
 .dashboard-filters-container {
     display: flex;
-    gap: 12px;
-    margin-bottom: 2rem;
     flex-wrap: wrap;
+    gap: 10px;
+    justify-content: center;
+    margin-bottom: 20px;
 }
 
-/* Botón de filtro base */
 .dashboard-filter-btn {
-    padding: 8px 22px;
-    border-radius: 50px;
-    /* Estilo de píldora */
+    padding: 8px 12px;
+    border: 1px solid #444;
+    background: #111;
+    color: #fff;
     cursor: pointer;
-    font-size: 0.85rem;
-    font-weight: bold;
-    text-transform: uppercase;
-    transition: all 0.3s ease;
-    border: 2px solid #000000;
+    border-radius: 5px;
+    font-size: 13px;
 }
 
-/* Botón cuando está activo (Carrera seleccionada) */
-.dashboard-filter-btn.is-active {
-    background-color: #ff0000;
-    /* Fondo rojo para el activo */
-    color: #ffffff;
-    /* Texto blanco */
-    border-color: #ff0000;
-    box-shadow: 0 4px 10px rgba(255, 0, 0, 0.3);
+/* ESTADOS DE BOTÓN */
+.is-active {
+    background: #e50914;
+    border-color: #e50914;
 }
 
-/* Botón cuando no está seleccionado */
-.dashboard-filter-btn.is-inactive {
-    background-color: #ffffff;
-    color: #000000;
-    border-color: #000000;
+.is-inactive:hover {
+    border-color: #e50914;
+    color: #e50914;
 }
 
-.dashboard-filter-btn.is-inactive:hover {
-    background-color: #000000;
-    color: #ffffff;
-}
-
-/* Mensajes de estado (Cargando, Error, Vacío) */
+/* MENSAJES */
 .dashboard-state-msg {
     text-align: center;
-    padding: 2rem;
-    font-size: 1rem;
-    font-weight: 600;
-    border-radius: 8px;
-    border: 1px dashed #000000;
+    margin: 20px 0;
 }
 
 .is-loading {
-    color: #000000;
-    font-style: italic;
+    color: #888;
 }
 
 .is-error {
-    background-color: #ff0000;
-    color: #ffffff;
-    border-style: solid;
+    color: #ff4d4d;
 }
 
 .is-empty {
-    color: #666666;
-    background-color: #f9f9f9;
+    color: #aaa;
 }
 
-/* Layout del Grid de tarjetas */
+/* GRID */
 .dashboard-grid-layout {
     display: grid;
-    /* Mantenemos tu lógica de grid responsivo */
     grid-template-columns: repeat(auto-fill, minmax(230px, 1fr));
-    gap: 1.5rem;
-    margin-top: 1rem;
+    gap: 20px;
+    justify-items: center;
+}
+
+/* RESPONSIVE */
+@media (max-width: 768px) {
+    .dashboard-wrapper {
+        padding: 15px;
+    }
+
+    .dashboard-filter-btn {
+        font-size: 12px;
+        padding: 6px 10px;
+    }
 }

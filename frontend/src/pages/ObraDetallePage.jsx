@@ -2,7 +2,7 @@ import { useState, useEffect } from 'react'
 import { useParams, Link } from 'react-router-dom'
 import { obrasApi } from '../api/apiClient'
 import { QRCodeSVG } from 'qrcode.react'
-import '../estilos/ObraDetallePage.css'; // Importación fundamental para aplicar el diseño
+import '../estilos/ObraDetallePage.css';
 
 export default function ObraDetallePage() {
     const { id } = useParams()

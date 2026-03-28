@@ -204,8 +204,7 @@ export default function LoginPage() {
 
                         <div className="login-field">
                             <label className="login-label">Rol asignado</label>
-                            <input className="login-input" type="text" value="Estudiante" disabled
-                                style={{ background: '#f0f0f0', cursor: 'not-allowed' }} />
+                            <input className="login-input login-input-disabled" type="text" value="Estudiante" disabled/>
                         </div>
 
                         <button className="login-btn-main" type="submit" disabled={cargando}>

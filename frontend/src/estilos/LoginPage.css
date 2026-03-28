@@ -1,137 +1,130 @@
-/* Contenedor de toda la página para centrar la tarjeta */
+/* RESET */
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    background: #000;
+    font-family: Arial, sans-serif;
+    color: #fff;
+}
+
+/* WRAPPER */
 .login-page-wrapper {
+    min-height: 100vh;
     display: flex;
     justify-content: center;
     align-items: center;
-    min-height: 80vh;
-    background-color: #ffffff;
-    /* Fondo blanco limpio */
 }
 
-/* Tarjeta principal del login */
+/* CARD */
 .login-card {
-    max-width: 400px;
+    background: #111;
+    padding: 30px;
+    border-radius: 10px;
     width: 100%;
-    padding: 2.5rem;
-    border: 3px solid #000000;
-    /* Borde negro grueso y sólido */
-    border-radius: 0px;
-    /* Esquinas rectas para un look más técnico */
-    background-color: #ffffff;
-    box-shadow: 10px 10px 0px #ff0000;
-    /* Sombra roja sólida estilo brutalista */
+    max-width: 400px;
+    border: 1px solid #222;
 }
 
-/* Título del formulario */
+/* TITULO */
 .login-title {
     text-align: center;
-    margin-bottom: 2rem;
-    color: #000000;
-    text-transform: uppercase;
-    font-weight: 900;
-    letter-spacing: 1px;
+    margin-bottom: 20px;
+    color: #e50914;
 }
 
-/* Alerta de error */
+/* ERROR */
 .login-error-msg {
-    background-color: #ff0000;
-    /* Fondo rojo para el error */
-    color: #ffffff;
-    /* Texto blanco para legibilidad */
+    background: #a71d2a;
     padding: 10px;
-    border-radius: 4px;
-    font-size: 0.85rem;
-    font-weight: bold;
+    border-radius: 5px;
+    margin-bottom: 15px;
     text-align: center;
-    margin-bottom: 1.5rem;
 }
 
-/* Estructura del formulario */
+/* FORM */
 .login-form {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+/* CAMPOS */
+.login-field {
     display: flex;
     flex-direction: column;
 }
 
-.login-field {
-    margin-bottom: 1.2rem;
-}
-
-/* Etiquetas de los campos */
 .login-label {
-    display: block;
-    font-size: 0.75rem;
-    color: #000000;
-    font-weight: 800;
-    text-transform: uppercase;
     margin-bottom: 5px;
+    font-size: 14px;
 }
 
-/* Estilo de los Inputs y Selects */
+/* INPUT */
 .login-input {
-    width: 100%;
-    padding: 12px;
-    border: 2px solid #000000;
-    background-color: #ffffff;
-    color: #000000;
-    font-size: 1rem;
-    box-sizing: border-box;
-    transition: all 0.2s ease;
+    padding: 10px;
+    border: 1px solid #444;
+    border-radius: 5px;
+    background: #000;
+    color: #fff;
 }
 
-.login-input:focus {
-    outline: none;
-    border-color: #ff0000;
-    /* Al hacer click, el borde cambia a rojo */
-    background-color: #fffafa;
+/* INPUT DESHABILITADO */
+.login-input-disabled {
+    background: #222;
+    cursor: not-allowed;
+    color: #aaa;
 }
 
-/* Botón Principal (Entrar / Registrarme) */
+/* BOTÓN PRINCIPAL */
 .login-btn-main {
-    width: 100%;
-    background-color: #000000;
-    /* Botón negro */
-    color: #ffffff;
-    /* Texto blanco */
-    border: 2px solid #000000;
-    padding: 12px;
-    cursor: pointer;
-    font-size: 1rem;
-    font-weight: 900;
-    text-transform: uppercase;
-    margin-top: 1rem;
-    transition: all 0.3s ease;
-}
-
-.login-btn-main:hover {
-    background-color: #ff0000;
-    /* Al pasar el mouse cambia a rojo */
-    border-color: #ff0000;
-}
-
-/* Botón para cambiar de modo (Switch) */
-.login-btn-switch {
-    width: 100%;
-    background: none;
+    background: #e50914;
     border: none;
-    color: #000000;
-    margin-top: 15px;
-    font-size: 0.85rem;
+    padding: 12px;
+    color: white;
     cursor: pointer;
-    text-decoration: underline;
+    border-radius: 5px;
     font-weight: bold;
 }
 
-.login-btn-switch:hover {
-    color: #ff0000;
-    /* El link cambia a rojo al pasar el mouse */
+.login-btn-main:hover {
+    background: #ff1f1f;
 }
 
-/* Información de la demo */
-.login-demo-info {
+/* BOTÓN SWITCH */
+.login-btn-switch {
+    margin-top: 15px;
+    background: none;
+    border: none;
+    color: #e50914;
+    cursor: pointer;
     text-align: center;
-    font-size: 0.75rem;
-    color: #666666;
-    margin-top: 1.5rem;
-    border-top: 1px dashed #000000;
-    padding-top: 10px;
+}
+
+/* DEMO */
+.login-demo-info {
+    font-size: 12px;
+    color: #888;
+    text-align: center;
+}
+
+/* ERRORES */
+.input-error {
+    border: 1px solid red;
+}
+
+.field-error {
+    color: #ff4d4d;
+    font-size: 12px;
+}
+
+/* RESPONSIVE */
+@media (max-width: 480px) {
+    .login-card {
+        padding: 20px;
+        margin: 10px;
+    }
 }

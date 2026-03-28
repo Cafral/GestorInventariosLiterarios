@@ -13,22 +13,22 @@ const AUTOR_INIT = { nombre: '', email: '', biografia: '' }
 export default function AdminObrasPage() {
   const { usuario } = useAuth()
 
-  const [obras,     setObras]     = useState([])
-  const [carreras,  setCarreras]  = useState([])
-  const [autores,   setAutores]   = useState([])
-  const [form,      setForm]      = useState(OBRA_INIT)
+  const [obras, setObras] = useState([])
+  const [carreras, setCarreras] = useState([])
+  const [autores, setAutores] = useState([])
+  const [form, setForm] = useState(OBRA_INIT)
   const [autorForm, setAutorForm] = useState(AUTOR_INIT)
 
-  const [msg,       setMsg]       = useState('')
-  const [msgAutor,  setMsgAutor]  = useState('')
-  const [errores,   setErrores]   = useState({})
+  const [msg, setMsg] = useState('')
+  const [msgAutor, setMsgAutor] = useState('')
+  const [errores, setErrores] = useState({})
   const [tabActiva, setTabActiva] = useState('obras')
   const [previewImg, setPreviewImg] = useState(null)
 
   const cargar = () => {
-    obrasApi.listar().then(setObras).catch(() => {})
-    carrerasApi.listar().then(setCarreras).catch(() => {})
-    autoresApi.listar().then(setAutores).catch(() => {})
+    obrasApi.listar().then(setObras).catch(() => { })
+    carrerasApi.listar().then(setCarreras).catch(() => { })
+    autoresApi.listar().then(setAutores).catch(() => { })
   }
   useEffect(() => { cargar() }, [])
 
@@ -63,13 +63,13 @@ export default function AdminObrasPage() {
   // ── Validaciones obra ─────────────────────────────────────
   const validarObra = () => {
     const e = {}
-    if (!form.titulo.trim())    e.titulo    = 'El título es obligatorio'
-    if (!form.isbn13.trim())    e.isbn13    = 'El ISBN-13 es obligatorio'
+    if (!form.titulo.trim()) e.titulo = 'El título es obligatorio'
+    if (!form.isbn13.trim()) e.isbn13 = 'El ISBN-13 es obligatorio'
     if (!form.editorial.trim()) e.editorial = 'La editorial es obligatoria'
-    if (!form.carreraId)        e.carreraId = 'Selecciona una carrera'
-    if (!form.autorId)          e.autorId   = 'Selecciona un autor'
+    if (!form.carreraId) e.carreraId = 'Selecciona una carrera'
+    if (!form.autorId) e.autorId = 'Selecciona un autor'
     if (!form.precioAdquisicion || parseFloat(form.precioAdquisicion) <= 0)
-                                 e.precio    = 'El precio debe ser mayor a 0'
+      e.precio = 'El precio debe ser mayor a 0'
     return e
   }
 
@@ -84,9 +84,9 @@ export default function AdminObrasPage() {
       const res = await obrasApi.crear({
         ...form,
         precioAdquisicion: parseFloat(form.precioAdquisicion),
-        carreraId:         parseInt(form.carreraId),
-        autorId:           parseInt(form.autorId),
-        anio:              parseInt(form.anio)
+        carreraId: parseInt(form.carreraId),
+        autorId: parseInt(form.autorId),
+        anio: parseInt(form.anio)
       })
       const resultado = res.resultado
       if (String(resultado).startsWith('ERROR')) {
@@ -170,17 +170,16 @@ export default function AdminObrasPage() {
     <div className="admin-container">
       <h2 className="admin-main-title">Panel de Administración</h2>
 
-      {/* Pestañas */}
-      <div style={{ display: 'flex', gap: '10px', marginBottom: '24px' }}>
+      <div className="admin-tabs">
         <button
           className={`admin-btn-submit${tabActiva === 'obras' ? '' : ' admin-btn-secondary'}`}
           onClick={() => setTabActiva('obras')}>
-          📚 Obras
+          Obras
         </button>
         <button
           className={`admin-btn-submit${tabActiva === 'autores' ? '' : ' admin-btn-secondary'}`}
           onClick={() => setTabActiva('autores')}>
-          ✍️ Autores
+          Autores
         </button>
       </div>
 
@@ -267,31 +266,27 @@ export default function AdminObrasPage() {
               ))}
             </select>
             {errores.autorId && <span className="field-error">{errores.autorId}</span>}
-            <small style={{ color: '#888', fontSize: '12px' }}>
+            <small className="admin-help-text">
               ¿No aparece? Agrégalo en la pestaña "Autores".
             </small>
           </div>
 
-          <div className="admin-form-group" style={{ gridColumn: '1 / -1' }}>
+          <div className="admin-form-group full-width">
             <label className="admin-label">Imagen de portada (JPG, PNG, WEBP — máx. 2MB)</label>
             <input type="file" accept="image/jpeg,image/png,image/gif,image/webp"
               className="admin-input" onChange={handleImagen} />
             {errores.imagen && <span className="field-error">{errores.imagen}</span>}
             {previewImg && (
-              <div style={{ marginTop: '10px', display: 'flex', alignItems: 'center', gap: '12px' }}>
-                <img src={previewImg} alt="Vista previa"
-                  style={{ maxHeight: '110px', maxWidth: '90px', borderRadius: '6px',
-                           objectFit: 'cover', border: '1px solid #ccc' }} />
-                <button type="button" onClick={quitarImagen}
-                  style={{ color: '#c0392b', background: 'none', border: 'none',
-                           cursor: 'pointer', fontSize: '13px' }}>
+              <div className="admin-image-preview">
+                <img src={previewImg} alt="Vista previa" className="admin-preview-img" />
+                <button type="button" onClick={quitarImagen} className="admin-btn-remove-img">
                   ✕ Quitar imagen
                 </button>
               </div>
             )}
           </div>
 
-          <div className="admin-form-actions" style={{ gridColumn: '1 / -1' }}>
+          <div className="admin-form-actions full-width">
             <button className="admin-btn-submit" type="submit">+ Crear Nueva Obra</button>
             {msg && (
               <span className={msg.startsWith('ERROR') ? 'admin-msg-error' : 'admin-msg-success'}>
@@ -306,7 +301,7 @@ export default function AdminObrasPage() {
           <table className="admin-table">
             <thead>
               <tr className="admin-table-header-row">
-                {['ID','Título','ISBN','PVP','Stock','Estado','Acciones'].map(h =>
+                {['ID', 'Título', 'ISBN', 'PVP', 'Stock', 'Estado', 'Acciones'].map(h =>
                   <th key={h} className="admin-th">{h}</th>)}
               </tr>
             </thead>
@@ -326,7 +321,7 @@ export default function AdminObrasPage() {
                       onChange={e => handleEstado(o.id, e.target.value)}
                       defaultValue="">
                       <option value="" disabled>Estado</option>
-                      {['BORRADOR','ENTREGADO','PUBLICADO','VENDIDO'].map(s =>
+                      {['BORRADOR', 'ENTREGADO', 'PUBLICADO', 'VENDIDO'].map(s =>
                         <option key={s} value={s}>{s}</option>)}
                     </select>
                     <button className="admin-btn-delete"
@@ -358,14 +353,13 @@ export default function AdminObrasPage() {
               value={autorForm.email} onChange={cambiarAutor} />
           </div>
 
-          <div className="admin-form-group" style={{ gridColumn: '1 / -1' }}>
+          <div className="admin-form-group">
             <label className="admin-label">Biografía</label>
-            <textarea name="biografia" rows={3} className="admin-input"
-              style={{ resize: 'vertical' }}
+            <textarea name="biografia" rows={3} className="admin-input admin-textarea"
               value={autorForm.biografia} onChange={cambiarAutor} />
           </div>
 
-          <div className="admin-form-actions" style={{ gridColumn: '1 / -1' }}>
+          <div className="admin-form-actions full-width">
             <button className="admin-btn-submit" type="submit">+ Agregar Autor</button>
             {msgAutor && (
               <span className={msgAutor.startsWith('ERROR') ? 'admin-msg-error' : 'admin-msg-success'}>

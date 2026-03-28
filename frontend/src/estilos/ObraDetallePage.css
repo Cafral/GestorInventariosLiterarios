@@ -1,172 +1,168 @@
-/* Contenedor central de la página */
-.detail-page-container {
-    max-width: 600px;
-    margin: 2rem auto;
-    padding: 2rem;
-    background-color: #ffffff;
-    border: 2px solid #000000;
-    box-shadow: 8px 8px 0px #000000; /* Sombra sólida estilo brutalista */
+/* RESET */
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
 }
 
-/* Link de volver */
+body {
+    background: #000;
+    color: #fff;
+    font-family: Arial, sans-serif;
+}
+
+/* CONTENEDOR */
+.detail-page-container {
+    max-width: 900px;
+    margin: auto;
+    padding: 20px;
+}
+
+/* LINK VOLVER */
 .detail-back-link {
-    color: #ff0000; /* Rojo para destacar el retorno */
+    display: inline-block;
+    margin-bottom: 15px;
+    color: #e50914;
     text-decoration: none;
-    font-size: 0.9rem;
-    font-weight: bold;
-    text-transform: uppercase;
 }
 
 .detail-back-link:hover {
     text-decoration: underline;
 }
 
-/* Título de la obra */
+/* TITULO */
 .detail-main-title {
-    margin: 1rem 0 0.5rem;
-    color: #000000;
-    font-size: 1.8rem;
-    font-weight: 900;
-    text-transform: uppercase;
+    text-align: center;
+    color: #e50914;
+    margin-bottom: 15px;
 }
 
-/* Estrellas de calificación */
+/* ESTRELLAS */
 .detail-stars-wrapper {
-    display: flex;
-    gap: 4px;
-    margin-bottom: 1.5rem;
-    align-items: center;
+    text-align: center;
+    margin-bottom: 20px;
 }
 
 .detail-star-icon {
-    font-size: 1.5rem;
+    font-size: 20px;
 }
 
-.detail-star-icon.is-active {
-    color: #ff0000; /* Estrellas activas en Rojo */
+.is-active {
+    color: #e50914;
 }
 
-.detail-star-icon.is-inactive {
-    color: #000000; /* Estrellas inactivas en Negro */
-    opacity: 0.2;
+.is-inactive {
+    color: #444;
 }
 
 .detail-votes-count {
-    font-size: 0.8rem;
-    color: #000000;
     margin-left: 10px;
-    font-weight: 600;
+    font-size: 13px;
+    color: #888;
 }
 
-/* Estilos de la tabla de información */
+/* TABLA */
 .detail-info-table {
     width: 100%;
     border-collapse: collapse;
-    font-size: 0.95rem;
-    margin-bottom: 2rem;
-    border: 1px solid #000000;
+    margin-bottom: 20px;
 }
 
 .detail-table-row {
-    border-bottom: 1px solid #000000;
-}
-
-.detail-table-row:last-child {
-    border-bottom: none;
+    border-bottom: 1px solid #333;
 }
 
 .detail-table-label {
-    padding: 10px 12px;
-    color: #ffffff;
-    background-color: #000000; /* Etiquetas con fondo negro */
-    width: 40%;
+    padding: 10px;
     font-weight: bold;
-    text-transform: uppercase;
-    font-size: 0.75rem;
+    color: #e50914;
+    width: 40%;
 }
 
 .detail-table-value {
-    padding: 10px 12px;
-    color: #000000;
-    font-weight: 600;
+    padding: 10px;
 }
 
-/* Subtítulos de secciones */
+/* SUBTITULOS */
 .detail-section-subtitle {
-    font-size: 1.1rem;
-    color: #000000;
-    text-transform: uppercase;
-    border-left: 5px solid #ff0000;
-    padding-left: 10px;
-    margin-bottom: 1rem;
+    margin: 20px 0 10px;
+    color: #fff;
 }
 
-/* Historial de estados */
+/* HISTORIAL */
 .detail-history-list {
-    padding-left: 0;
     list-style: none;
-    font-size: 0.9rem;
-    margin-bottom: 2rem;
+    margin-bottom: 20px;
 }
 
 .detail-history-item {
     padding: 8px;
-    border-left: 2px solid #000000;
-    margin-bottom: 6px;
-    background-color: #fffafa;
+    border-bottom: 1px solid #333;
 }
 
 .detail-history-status {
-    color: #ff0000; /* El estado actual en rojo */
-    font-weight: bold;
+    color: #e50914;
 }
 
 .detail-history-date {
-    color: #000000;
-    font-weight: 600;
-    font-size: 0.8rem;
+    font-size: 12px;
+    color: #888;
 }
 
 .detail-history-notes {
-    color: #666666;
-    font-style: italic;
-    font-size: 0.8rem;
+    font-size: 12px;
+    color: #ccc;
 }
 
-/* Sección QR */
+/* QR */
 .detail-qr-section {
     text-align: center;
-    padding: 1.5rem;
-    background-color: #f9f9f9;
-    border: 2px dashed #000000;
+    margin-top: 20px;
 }
 
 .detail-qr-container {
-    background-color: #ffffff;
+    margin: 15px 0;
     padding: 10px;
+    background: #fff;
     display: inline-block;
-    border: 1px solid #000000;
+    border-radius: 8px;
 }
 
 .detail-qr-footer-text {
-    font-size: 0.75rem;
-    color: #000000;
-    margin-top: 10px;
-    font-weight: bold;
+    font-size: 13px;
+    color: #888;
 }
 
-/* Mensajes de carga y error */
+/* MENSAJES */
 .detail-error-msg {
-    color: #ffffff;
-    background-color: #ff0000;
-    padding: 1rem;
+    color: #ff4d4d;
     text-align: center;
-    font-weight: bold;
+    margin-top: 20px;
 }
 
 .detail-loading-msg {
-    color: #000000;
     text-align: center;
-    padding: 2rem;
-    font-style: italic;
+    margin-top: 20px;
+    color: #888;
+}
+
+/* RESPONSIVE */
+@media (max-width: 768px) {
+    .detail-page-container {
+        padding: 15px;
+    }
+
+    .detail-main-title {
+        font-size: 20px;
+    }
+
+    .detail-table-label,
+    .detail-table-value {
+        padding: 8px;
+        font-size: 13px;
+    }
+
+    .detail-star-icon {
+        font-size: 16px;
+    }
 }

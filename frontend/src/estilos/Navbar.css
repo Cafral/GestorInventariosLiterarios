@@ -1,108 +1,99 @@
-/* Contenedor principal de la navegación */
+/* CONTENEDOR PRINCIPAL */
 .navbar-container {
-    background-color: #000000;
-    /* Negro para el fondo principal */
-    color: #ffffff;
-    /* Blanco para el texto general */
-    padding: 0 2rem;
     display: flex;
+    justify-content: space-between;
     align-items: center;
-    gap: 1.5rem;
-    height: 56px;
-    border-bottom: 2px solid #ff0000;
-    /* Una línea roja sutil en la parte inferior */
+    background: #111;
+    padding: 12px 20px;
+    border-bottom: 2px solid #e50914;
+    flex-wrap: wrap;
 }
 
-/* Estilo para la marca 'ITQ Repositorio' */
+/* LOGO */
 .navbar-brand {
-    color: #ffffff;
-    /* Texto en blanco */
-    font-weight: 700;
+    color: #e50914;
+    font-weight: bold;
+    font-size: 18px;
     text-decoration: none;
-    margin-right: 8px;
-    font-size: 1.2rem;
 }
 
-.navbar-brand:hover {
-    color: #ff0000;
-    /* Cambia a rojo al pasar el mouse */
-}
-
-/* Grupo de links centrales */
+/* LINKS */
 .navbar-links-group {
     display: flex;
-    gap: 1rem;
-    flex: 1;
+    gap: 15px;
 }
 
-/* Estilo individual para cada link */
 .navbar-link {
-    color: #ffffff;
-    /* Los links ahora son blancos para mejor contraste */
+    color: #fff;
     text-decoration: none;
-    font-size: 0.9rem;
-    transition: color 0.3s ease;
+    font-size: 14px;
 }
 
 .navbar-link:hover {
-    color: #ff0000;
-    /* Los links se vuelven rojos al pasar el mouse */
+    color: #e50914;
 }
 
-/* Sección derecha (usuario y botón) */
+/* SECCIÓN DERECHA */
 .navbar-right-section {
     display: flex;
     align-items: center;
-    gap: 0.75rem;
-    marginLeft: auto;
+    gap: 10px;
 }
 
-/* Etiqueta del ROL del usuario */
+/* USUARIO */
+.navbar-username {
+    font-size: 14px;
+}
+
+/* ROL */
 .navbar-badge-role {
-    background-color: #ff0000;
-    /* Fondo rojo para el rol */
-    color: #ffffff;
-    /* Texto blanco sobre el fondo rojo */
-    border-radius: 9999px;
-    padding: 2px 10px;
-    font-size: 0.75rem;
-    font-weight: bold;
+    background: #e50914;
+    padding: 4px 8px;
+    border-radius: 4px;
+    font-size: 12px;
 }
 
-/* Nombre del usuario */
-.navbar-user-name {
-    font-size: 0.85rem;
-    color: #ffffff;
-    /* Nombre en blanco */
-}
-
-/* Botón de Salir */
+/* BOTÓN LOGOUT */
 .navbar-logout-btn {
-    background-color: #ffffff;
-    /* Botón blanco */
-    color: #000000;
-    /* Texto negro en el botón */
-    border: 1px solid #ff0000;
-    /* Borde rojo */
-    border-radius: 6px;
-    padding: 4px 12px;
+    background: transparent;
+    border: 1px solid #e50914;
+    color: #e50914;
+    padding: 5px 10px;
     cursor: pointer;
-    font-size: 0.85rem;
-    font-weight: bold;
-    transition: all 0.3s ease;
+    border-radius: 4px;
 }
 
 .navbar-logout-btn:hover {
-    background-color: #ff0000;
-    /* Al pasar el mouse, el botón se vuelve rojo */
-    color: #ffffff;
-    /* Y el texto se vuelve blanco */
+    background: #e50914;
+    color: white;
 }
 
-/* Link de Iniciar Sesión (cuando no hay usuario) */
+/* LOGIN */
 .navbar-login-link {
-    color: #ff0000;
-    /* Texto rojo para resaltar la acción de entrar */
+    color: #e50914;
     text-decoration: none;
-    font-weight: bold;
+    font-size: 14px;
+}
+
+.navbar-login-link:hover {
+    text-decoration: underline;
+}
+
+/* RESPONSIVE */
+@media (max-width: 768px) {
+    .navbar-container {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 10px;
+    }
+
+    .navbar-links-group {
+        flex-direction: column;
+        width: 100%;
+    }
+
+    .navbar-right-section {
+        width: 100%;
+        justify-content: space-between;
+    }
 }

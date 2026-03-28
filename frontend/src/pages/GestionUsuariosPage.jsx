@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react'
 import { usuariosApi, carrerasApi } from '../api/apiClient'
+import '../estilos/GestionUsuariosPage'
 
 const FORM_INIT = {
     nombre: '', email: '', password: '', confirmar: '',
@@ -72,7 +73,7 @@ export default function GestionUsuariosPage() {
     return (
         <div className="admin-container">
             <h2 className="admin-main-title">Gestión de Usuarios</h2>
-            <p style={{ color: '#888', fontSize: '14px', marginBottom: '24px' }}>
+            <p className="admin-info-text">
                 Como <strong>Administrador TI</strong> puedes crear usuarios con cualquier rol del sistema.
             </p>
 
@@ -136,7 +137,7 @@ export default function GestionUsuariosPage() {
                     {errores.carrera_id && <span className="field-error">{errores.carrera_id}</span>}
                 </div>
 
-                <div className="admin-form-actions" style={{ gridColumn: '1 / -1' }}>
+                <div className="admin-form-actions">
                     <button className="admin-btn-submit" type="submit">+ Crear Usuario</button>
                     {msg && (
                         <span className={msg.startsWith('ERROR') ? 'admin-msg-error' : 'admin-msg-success'}>

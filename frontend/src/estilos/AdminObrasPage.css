@@ -1,147 +1,143 @@
-/* Contenedor principal de la página */
-.admin-container {
-    padding: 20px;
-    background-color: #ffffff;
-    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+/* RESET */
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
 }
 
-/* Títulos principales */
+body {
+    background-color: #000;
+    color: #fff;
+    font-family: Arial, sans-serif;
+}
+
+/* CONTENEDOR */
+.admin-container {
+    padding: 20px;
+}
+
+/* TITULOS */
 .admin-main-title {
-    color: #000000;
-    border-left: 5px solid #ff0000;
-    /* Detalle en rojo */
-    padding-left: 15px;
-    margin-bottom: 25px;
-    text-transform: uppercase;
+    text-align: center;
+    color: #e50914;
+    margin-bottom: 20px;
 }
 
 .admin-subtitle {
-    color: #000000;
-    margin-top: 30px;
-    border-bottom: 2px solid #000000;
-    display: inline-block;
-    padding-bottom: 5px;
+    margin: 20px 0;
+    color: #fff;
 }
 
-/* Grid del Formulario */
+/* TABS */
+.admin-tabs {
+    display: flex;
+    gap: 10px;
+    margin-bottom: 24px;
+}
+
+/* BOTONES */
+.admin-btn-submit {
+    background-color: #e50914;
+    color: white;
+    border: none;
+    padding: 10px 15px;
+    cursor: pointer;
+    border-radius: 5px;
+}
+
+.admin-btn-secondary {
+    background-color: #333;
+}
+
+.admin-btn-delete {
+    background: #e50914;
+    border: none;
+    color: white;
+    padding: 6px 10px;
+    cursor: pointer;
+    border-radius: 4px;
+}
+
+.admin-btn-remove-img {
+    background: none;
+    border: none;
+    color: #e50914;
+    cursor: pointer;
+}
+
+/* FORMULARIO */
 .admin-form-grid {
     display: grid;
-    grid-template-columns: 1fr 1fr;
-    /* Dos columnas como pediste */
-    gap: 12px 24px;
-    max-width: 800px;
-    background-color: #f9f9f9;
-    padding: 20px;
-    border: 1px solid #000000;
-    border-radius: 8px;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 15px;
 }
 
-/* Grupos de etiquetas e inputs */
 .admin-form-group {
     display: flex;
     flex-direction: column;
 }
 
+.full-width {
+    grid-column: 1 / -1;
+}
+
 .admin-label {
-    display: block;
-    font-size: 0.8rem;
-    color: #000000;
-    font-weight: bold;
-    margin-bottom: 4px;
-    text-transform: uppercase;
+    margin-bottom: 5px;
 }
 
 .admin-input {
-    width: 100%;
-    padding: 8px 12px;
-    border: 1px solid #000000;
-    /* Borde negro */
+    padding: 8px;
+    border: 1px solid #444;
     border-radius: 4px;
-    font-size: 0.9rem;
-    box-sizing: border-box;
-    transition: border-color 0.3s;
+    background: #111;
+    color: #fff;
 }
 
-.admin-input:focus {
-    outline: none;
-    border-color: #ff0000;
-    /* Al escribir, el borde se vuelve rojo */
+.admin-textarea {
+    resize: vertical;
 }
 
-/* Acciones del formulario (Botón y Mensajes) */
-.admin-form-actions {
-    grid-column: 1 / -1;
-    /* Ocupa todo el ancho */
-    display: flex;
-    align-items: center;
-    gap: 15px;
-    margin-top: 10px;
+/* ERRORES */
+.input-error {
+    border: 1px solid red;
 }
 
-.admin-btn-submit {
-    background-color: #000000;
-    /* Botón negro */
-    color: #ffffff;
-    /* Letras blancas */
-    border: none;
-    border-radius: 4px;
-    padding: 10px 25px;
-    cursor: pointer;
-    font-weight: bold;
-    text-transform: uppercase;
-    transition: background-color 0.3s;
+.field-error {
+    color: #ff4d4d;
+    font-size: 12px;
 }
 
-.admin-btn-submit:hover {
-    background-color: #ff0000;
-    /* Al pasar el mouse se vuelve rojo */
-}
-
-/* Mensajes dinámicos */
-.admin-msg-error {
-    color: #ff0000;
-    font-size: 0.85rem;
-    font-weight: bold;
-}
-
+/* MENSAJES */
 .admin-msg-success {
-    color: #000000;
-    font-size: 0.85rem;
-    font-weight: bold;
-    text-decoration: underline #ff0000;
+    color: #2ecc71;
+    margin-left: 10px;
 }
 
-/* Estilos de la Tabla */
+.admin-msg-error {
+    color: #e74c3c;
+    margin-left: 10px;
+}
+
+/* TABLA */
 .admin-table-wrapper {
-    margin-top: 20px;
     overflow-x: auto;
 }
 
 .admin-table {
     width: 100%;
     border-collapse: collapse;
-    font-size: 0.85rem;
-    border: 1px solid #000000;
-}
-
-.admin-table-header-row {
-    background-color: #000000;
-    /* Cabecera negra */
+    margin-top: 15px;
 }
 
 .admin-th {
-    padding: 12px 10px;
-    text-align: left;
-    color: #ffffff;
-    /* Texto blanco en cabecera */
-    font-weight: 600;
-    text-transform: uppercase;
+    background: #111;
+    padding: 10px;
+    border-bottom: 2px solid #e50914;
 }
 
 .admin-td {
     padding: 10px;
-    border-bottom: 1px solid #e0e0e0;
-    color: #000000;
+    border-bottom: 1px solid #333;
 }
 
 .admin-td-bold {
@@ -149,52 +145,59 @@
 }
 
 .admin-text-red {
-    color: #ff0000;
-    font-weight: bold;
+    color: #e50914;
 }
 
-.admin-table-row:hover {
-    background-color: #fff1f1;
-    /* Un toque rojo muy suave al pasar por la fila */
-}
-
-/* Elementos dentro de la tabla */
+/* ESTADO */
 .admin-status-badge {
-    background-color: #000000;
-    color: #ffffff;
-    padding: 3px 8px;
+    background: #333;
+    padding: 5px 8px;
     border-radius: 4px;
-    font-size: 0.7rem;
 }
 
-.admin-actions-cell {
-    display: flex;
-    gap: 8px;
-    align-items: center;
-}
-
+/* SELECT */
 .admin-select-status {
-    padding: 4px 8px;
-    border: 1px solid #000000;
-    border-radius: 4px;
-    background: white;
-    font-size: 0.8rem;
+    padding: 5px;
+    margin-right: 5px;
 }
 
-.admin-btn-delete {
-    background-color: #ff0000;
-    /* Botón de eliminar en rojo */
-    color: #ffffff;
-    border: none;
-    border-radius: 4px;
-    padding: 5px 12px;
-    cursor: pointer;
-    font-weight: bold;
-    transition: transform 0.2s;
+/* IMAGEN */
+.admin-image-preview {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-top: 10px;
 }
 
-.admin-btn-delete:hover {
-    background-color: #000000;
-    /* Cambia a negro al confirmar peligro */
-    transform: scale(1.1);
+.admin-preview-img {
+    max-height: 110px;
+    max-width: 90px;
+    border-radius: 6px;
+    object-fit: cover;
+    border: 1px solid #ccc;
+}
+
+/* TEXTO AYUDA */
+.admin-help-text {
+    color: #888;
+    font-size: 12px;
+}
+
+/* RESPONSIVE */
+@media (max-width: 768px) {
+    .admin-form-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .admin-tabs {
+        flex-direction: column;
+    }
+
+    .admin-btn-submit {
+        width: 100%;
+    }
+
+    .admin-table {
+        font-size: 12px;
+    }
 }
