@@ -1,9 +1,8 @@
 package org.example;
 
 import com.sun.net.httpserver.HttpServer;
-import controllers.ObraController;
-import controllers.UsuarioController;
-import controllers.InventarioController;
+import controllers.*;
+
 import java.net.InetSocketAddress;
 
 public class Main {
@@ -15,12 +14,16 @@ public class Main {
                 : 8080;
 
         HttpServer server = HttpServer.create(new InetSocketAddress(port), 0);
+
         server.createContext("/obras", new ObraController());
         server.createContext("/usuarios", new UsuarioController());
         server.createContext("/inventario", new InventarioController());
+        // Nuevas rutas
+        server.createContext("/carreras", new CarreraController());
+        server.createContext("/autores", new AutorController());
+
         server.setExecutor(null);
         server.start();
-
         System.out.println("Servidor ITQ corriendo en " + port);
     }
 }

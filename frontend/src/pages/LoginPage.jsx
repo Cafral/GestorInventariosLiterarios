@@ -2,7 +2,7 @@ import { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { usuariosApi } from '../api/apiClient'
 import { useAuth } from '../context/AuthContext'
-import '../estilos/LoginPage.css'; // Importación obligatoria para los estilos
+import '../estilos/LoginPage.css';
 
 export default function LoginPage() {
     const [form, setForm] = useState({ email: '', password: '', nombre: '', rol: 'ESTUDIANTE', carrera_id: 1 })

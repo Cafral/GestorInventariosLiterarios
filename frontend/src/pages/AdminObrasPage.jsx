@@ -4,7 +4,7 @@ import '../estilos/AdminObrasPage.css';
 
 const FORM_INIT = {
     titulo: '', genero: '', isbn13: '', plataforma: 'Físico',
-    precioAdquisicion: '', carreraId: 1, autorId: 1,
+    precioAdquisicion: '', carreraId: 1, autorId: '',
     editorial: '', anio: new Date().getFullYear(),
     imagen_url: ''
 }
