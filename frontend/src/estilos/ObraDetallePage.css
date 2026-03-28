@@ -33,7 +33,7 @@ body {
 /* TITULO */
 .detail-main-title {
     text-align: center;
-    color: #e50914;
+    color: transparent;
     margin-bottom: 15px;
 }
 
@@ -52,7 +52,7 @@ body {
 }
 
 .is-inactive {
-    color: #444;
+    color: #ffffff;
 }
 
 .detail-votes-count {
