@@ -2,14 +2,8 @@ package services;
 
 import config.DatabaseConexion;
 
-import java.sql.Connection;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.sql.Statement;
-import java.util.ArrayList;
-import java.util.LinkedHashMap;
-import java.util.List;
-import java.util.Map;
+import java.sql.*;
+import java.util.*;
 
 public class CarreraService {
     private Connection conn() throws SQLException {
@@ -26,7 +20,7 @@ public class CarreraService {
                 Map<String, Object> c = new LinkedHashMap<>();
                 c.put("id", rs.getInt("id"));
                 c.put("nombre", rs.getString("nombre"));
-                c.put("codigo", rs.getInt("codigo"));
+                c.put("codigo", rs.getString("codigo"));
                 lista.add(c);
             }
         }

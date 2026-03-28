@@ -1,6 +1,6 @@
 import { Link, useNavigate } from 'react-router-dom'
 import { useAuth } from '../context/AuthContext'
-import '../estilos/Navbar.css'; // Asegúrate de importar tu archivo CSS
+import '../estilos/Navbar.css'
 
 export default function NavBar() {
     const { usuario, logout } = useAuth()
@@ -8,34 +8,39 @@ export default function NavBar() {
 
     return (
         <nav className="navbar-container">
-            {/* El nombre del repositorio ITQ ahora usa la clase navbar-brand */}
             <Link to="/" className="navbar-brand">ITQ Repositorio</Link>
 
             <div className="navbar-links-group">
-                {/* Los links principales usan la clase navbar-link */}
                 <Link to="/" className="navbar-link">Inicio</Link>
 
-                {usuario?.rol?.includes('ADMIN') &&
-                    <Link to="/admin/obras" className="navbar-link">Obras</Link>}
+                {/* Gestión de obras: ADMIN_TI y ADMIN_ACADEMICO */}
+                {(usuario?.rol === 'ADMIN_TI' || usuario?.rol === 'ADMIN_ACADEMICO') && (
+                    <Link to="/admin/obras" className="navbar-link">Obras</Link>
+                )}
 
-                {(usuario?.rol === 'GESTOR_INVENTARIO' || usuario?.rol === 'ADMIN_TI') &&
-                    <Link to="/inventario" className="navbar-link">Inventario</Link>}
+                {/* Gestión de usuarios: solo ADMIN_TI */}
+                {usuario?.rol === 'ADMIN_TI' && (
+                    <Link to="/admin/usuarios" className="navbar-link">Usuarios</Link>
+                )}
+
+                {/* Inventario: GESTOR_INVENTARIO y ADMIN_TI */}
+                {(usuario?.rol === 'GESTOR_INVENTARIO' || usuario?.rol === 'ADMIN_TI') && (
+                    <Link to="/inventario" className="navbar-link">Inventario</Link>
+                )}
             </div>
 
             <div className="navbar-right-section">
                 {usuario ? (
                     <>
-                        {/* Etiquetas de rol y nombre con sus respectivas clases */}
                         <span className="navbar-badge-role">{usuario.rol}</span>
-                        <span className="navbar-user-name">{usuario.nombre}</span>
-                        <button className="navbar-logout-btn" onClick={() => { logout(); navigate('/login') }}>
+                        <span className="navbar-username">{usuario.nombre}</span>
+                        <button className="navbar-logout-btn"
+                            onClick={() => { logout(); navigate('/login') }}>
                             Salir
                         </button>
                     </>
                 ) : (
-                    <Link to="/login" className="navbar-login-link">
-                        Iniciar sesión
-                    </Link>
+                    <Link to="/login" className="navbar-login-link">Iniciar sesión</Link>
                 )}
             </div>
         </nav>

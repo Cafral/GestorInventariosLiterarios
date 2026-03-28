@@ -3,9 +3,9 @@ package controllers;
 import com.google.gson.Gson;
 import com.sun.net.httpserver.HttpExchange;
 import com.sun.net.httpserver.HttpHandler;
-
 import config.Cors;
 import services.InventarioService;
+
 import java.io.IOException;
 import java.util.Map;
 
@@ -34,30 +34,42 @@ public class InventarioController implements HttpHandler {
                 send(ex, 200, gson.toJson(service.transaccionesPorObra(obraId)));
 
             } else if (method.equals("POST") && path.equals("/inventario/ingreso")) {
-                Map<?, ?> data = gson.fromJson(new String(ex.getRequestBody().readAllBytes()), Map.class);
-                String resultado = service.ingresarLote(
-                        num(data, "obraId"),
-                        num(data, "cantidad"),
-                        dbl(data, "costoNuevo"),
-                        num(data, "usuarioId")
-                );
+                Map<?, ?> data = gson.fromJson(
+                        new String(ex.getRequestBody().readAllBytes()), Map.class);
+
+                int obraId     = num(data, "obraId");
+                int cantidad   = num(data, "cantidad");
+                double costo   = dbl(data, "costoNuevo");
+                int usuarioId  = num(data, "usuarioId"); // enviado por frontend desde sesión
+
+                if (obraId <= 0)   { send(ex, 400, "{\"error\":\"Selecciona una obra\"}"); return; }
+                if (cantidad <= 0) { send(ex, 400, "{\"error\":\"Cantidad inválida\"}"); return; }
+                if (costo <= 0)    { send(ex, 400, "{\"error\":\"Costo inválido\"}"); return; }
+                if (usuarioId <= 0){ send(ex, 400, "{\"error\":\"Sesión inválida\"}"); return; }
+
+                String resultado = service.ingresarLote(obraId, cantidad, costo, usuarioId);
                 send(ex, resultado.startsWith("ERROR") ? 400 : 200,
                         "{\"resultado\":\"" + resultado + "\"}");
 
             } else if (method.equals("POST") && path.equals("/inventario/venta")) {
-                Map<?, ?> data = gson.fromJson(new String(ex.getRequestBody().readAllBytes()), Map.class);
-                String resultado = service.venderObra(
-                        num(data, "obraId"),
-                        num(data, "cantidad"),
-                        num(data, "usuarioId")
-                );
+                Map<?, ?> data = gson.fromJson(
+                        new String(ex.getRequestBody().readAllBytes()), Map.class);
+
+                int obraId    = num(data, "obraId");
+                int cantidad  = num(data, "cantidad");
+                int usuarioId = num(data, "usuarioId"); // enviado por frontend desde sesión
+
+                if (obraId <= 0)   { send(ex, 400, "{\"error\":\"Selecciona una obra\"}"); return; }
+                if (cantidad <= 0) { send(ex, 400, "{\"error\":\"Cantidad inválida\"}"); return; }
+                if (usuarioId <= 0){ send(ex, 400, "{\"error\":\"Sesión inválida\"}"); return; }
+
+                String resultado = service.venderObra(obraId, cantidad, usuarioId);
                 send(ex, resultado.startsWith("ERROR") ? 400 : 200,
                         "{\"resultado\":\"" + resultado + "\"}");
 
             } else {
                 send(ex, 404, "{\"error\":\"Ruta no encontrada\"}");
             }
-
         } catch (Exception e) {
             send(ex, 500, "{\"error\":\"" + e.getMessage() + "\"}");
         }
@@ -73,13 +85,6 @@ public class InventarioController implements HttpHandler {
         } catch (IOException ignored) {}
     }
 
-    private String str(Map<?, ?> m, String k) {
-        Object v = m.get(k); return v != null ? v.toString() : "";
-    }
-    private int num(Map<?, ?> m, String k) {
-        Object v = m.get(k); return v instanceof Number n ? n.intValue() : 0;
-    }
-    private double dbl(Map<?, ?> m, String k) {
-        Object v = m.get(k); return v instanceof Number n ? n.doubleValue() : 0.0;
-    }
+    private int    num(Map<?, ?> m, String k) { Object v = m.get(k); return v instanceof Number n ? n.intValue() : 0; }
+    private double dbl(Map<?, ?> m, String k) { Object v = m.get(k); return v instanceof Number n ? n.doubleValue() : 0.0; }
 }

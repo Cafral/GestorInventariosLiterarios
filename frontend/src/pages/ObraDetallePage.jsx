@@ -88,7 +88,7 @@ export default function ObraDetallePage() {
                     />
                 </div>
                 <p className="detail-qr-footer-text">
-                    Escanea para ver el detalle o comprar directamente desde el móvil.
+                    Escanea para ver el detalle
                 </p>
             </div>
         </div>

@@ -1,35 +1,104 @@
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import { useNavigate } from 'react-router-dom'
-import { usuariosApi } from '../api/apiClient'
+import { usuariosApi, carrerasApi } from '../api/apiClient'
 import { useAuth } from '../context/AuthContext'
-import '../estilos/LoginPage.css';
+import '../estilos/LoginPage.css'
 
 export default function LoginPage() {
-    const [form, setForm] = useState({ email: '', password: '', nombre: '', rol: 'ESTUDIANTE', carrera_id: 1 })
     const [isLogin, setIsLogin] = useState(true)
+    const [carreras, setCarreras] = useState([])
     const [error, setError] = useState('')
+    const [errores, setErrores] = useState({})
+    const [cargando, setCargando] = useState(false)
+
+    const [loginForm, setLoginForm] = useState({ email: '', password: '' })
+    const [regForm, setRegForm] = useState({
+        nombre: '', email: '', password: '', confirmar: '', carrera_id: ''
+    })
+
     const { login } = useAuth()
     const navigate = useNavigate()
 
-    const handleSubmit = async (e) => {
+    useEffect(() => {
+        carrerasApi.listar().then(setCarreras).catch(() => { })
+    }, [])
+
+    // ── Validaciones ──────────────────────────────────────────
+    const validarLogin = () => {
+        const e = {}
+        if (!loginForm.email.trim()) e.email = 'El email es obligatorio'
+        else if (!loginForm.email.includes('@')) e.email = 'Email inválido'
+        if (!loginForm.password) e.password = 'La contraseña es obligatoria'
+        return e
+    }
+
+    const validarRegistro = () => {
+        const e = {}
+        if (!regForm.nombre.trim()) e.nombre = 'El nombre es obligatorio'
+        if (!regForm.email.includes('@')) e.email = 'Email inválido'
+        if (regForm.password.length < 6) e.password = 'Mínimo 6 caracteres'
+        if (regForm.password !== regForm.confirmar) e.confirmar = 'Las contraseñas no coinciden'
+        if (!regForm.carrera_id) e.carrera_id = 'Selecciona tu carrera'
+        return e
+    }
+
+    // ── Submit login ──────────────────────────────────────────
+    const handleLogin = async (e) => {
         e.preventDefault()
         setError('')
+        const ev = validarLogin()
+        if (Object.keys(ev).length) { setErrores(ev); return }
+        setErrores({})
+        setCargando(true)
         try {
-            if (isLogin) {
-                const usuario = await usuariosApi.login({
-                    email: form.email,
-                    password: form.password
-                })
-                login(usuario)
-                navigate('/')
-            } else {
-                await usuariosApi.registrar(form)
-                alert("¡Usuario registrado con éxito! Ahora inicia sesión.")
-                setIsLogin(true)
-            }
+            const usuario = await usuariosApi.login({
+                email: loginForm.email.trim(),
+                password: loginForm.password
+            })
+            login(usuario)
+            navigate('/')
         } catch (err) {
             setError(err.message)
+        } finally {
+            setCargando(false)
         }
+    }
+
+    // ── Submit registro (solo ESTUDIANTE) ────────────────────
+    const handleRegistro = async (e) => {
+        e.preventDefault()
+        setError('')
+        const ev = validarRegistro()
+        if (Object.keys(ev).length) { setErrores(ev); return }
+        setErrores({})
+        setCargando(true)
+        try {
+            await usuariosApi.registrar({
+                nombre: regForm.nombre.trim(),
+                email: regForm.email.trim(),
+                password: regForm.password,
+                carrera_id: parseInt(regForm.carrera_id)
+                // rol forzado a ESTUDIANTE en el backend
+            })
+            alert('¡Registro exitoso! Ahora inicia sesión.')
+            setIsLogin(true)
+            setRegForm({ nombre: '', email: '', password: '', confirmar: '', carrera_id: '' })
+        } catch (err) {
+            setError(err.message)
+        } finally {
+            setCargando(false)
+        }
+    }
+
+    const cambiarLogin = (e) => {
+        setLoginForm(f => ({ ...f, [e.target.name]: e.target.value }))
+        setErrores(er => ({ ...er, [e.target.name]: '' }))
+        setError('')
+    }
+    const cambiarReg = (e) => {
+        setRegForm(f => ({ ...f, [e.target.name]: e.target.value }))
+        setErrores(er => ({ ...er, [e.target.name]: '' }))
+        setError('')
     }
 
     return (
@@ -39,64 +108,120 @@ export default function LoginPage() {
                     {isLogin ? 'Iniciar Sesión' : 'Crear Cuenta ITQ'}
                 </h2>
 
-                {/* Mensaje de error resaltado en rojo */}
                 {error && <p className="login-error-msg">{error}</p>}
 
-                <form onSubmit={handleSubmit} className="login-form">
-                    {!isLogin && (
+                {/* ── FORMULARIO LOGIN ── */}
+                {isLogin ? (
+                    <form onSubmit={handleLogin} className="login-form" noValidate>
+
                         <div className="login-field">
-                            <label className="login-label">Nombre Completo</label>
-                            <input className="login-input" type="text" required
-                                value={form.nombre}
-                                onChange={e => setForm(f => ({ ...f, nombre: e.target.value }))} />
+                            <label className="login-label">Email</label>
+                            <input
+                                className={`login-input${errores.email ? ' input-error' : ''}`}
+                                type="email" name="email" autoComplete="email"
+                                value={loginForm.email} onChange={cambiarLogin}
+                            />
+                            {errores.email && <span className="field-error">{errores.email}</span>}
                         </div>
-                    )}
 
-                    <div className="login-field">
-                        <label className="login-label">Email Institucional</label>
-                        <input className="login-input" type="email" required
-                            value={form.email}
-                            onChange={e => setForm(f => ({ ...f, email: e.target.value }))} />
-                    </div>
-
-                    <div className="login-field">
-                        <label className="login-label">Contraseña</label>
-                        <input className="login-input" type="password" required
-                            value={form.password}
-                            onChange={e => setForm(f => ({ ...f, password: e.target.value }))} />
-                    </div>
-
-                    {!isLogin && (
                         <div className="login-field">
-                            <label className="login-label">Rol en el Sistema</label>
-                            <select className="login-input"
-                                value={form.rol}
-                                onChange={e => setForm(f => ({ ...f, rol: e.target.value }))}>
-                                <option value="ESTUDIANTE">Estudiante</option>
-                                <option value="GESTOR_INVENTARIO">Gestor de Inventario</option>
-                                <option value="ADMIN_TI">Administrador TI</option>
+                            <label className="login-label">Contraseña</label>
+                            <input
+                                className={`login-input${errores.password ? ' input-error' : ''}`}
+                                type="password" name="password" autoComplete="current-password"
+                                value={loginForm.password} onChange={cambiarLogin}
+                            />
+                            {errores.password && <span className="field-error">{errores.password}</span>}
+                        </div>
+
+                        <button className="login-btn-main" type="submit" disabled={cargando}>
+                            {cargando ? 'Ingresando...' : 'Entrar'}
+                        </button>
+
+                        <div className="login-demo-info">
+                            <p>Demo admin: admin1@itq.edu.ec / admin123</p>
+                        </div>
+                    </form>
+
+                ) : (
+                    /* ── FORMULARIO REGISTRO (ESTUDIANTE) ── */
+                    <form onSubmit={handleRegistro} className="login-form" noValidate>
+
+                        <div className="login-field">
+                            <label className="login-label">Nombre Completo *</label>
+                            <input
+                                className={`login-input${errores.nombre ? ' input-error' : ''}`}
+                                type="text" name="nombre" autoComplete="name"
+                                value={regForm.nombre} onChange={cambiarReg}
+                            />
+                            {errores.nombre && <span className="field-error">{errores.nombre}</span>}
+                        </div>
+
+                        <div className="login-field">
+                            <label className="login-label">Email Institucional *</label>
+                            <input
+                                className={`login-input${errores.email ? ' input-error' : ''}`}
+                                type="email" name="email" autoComplete="email"
+                                value={regForm.email} onChange={cambiarReg}
+                            />
+                            {errores.email && <span className="field-error">{errores.email}</span>}
+                        </div>
+
+                        <div className="login-field">
+                            <label className="login-label">Contraseña * (mínimo 6 caracteres)</label>
+                            <input
+                                className={`login-input${errores.password ? ' input-error' : ''}`}
+                                type="password" name="password" autoComplete="new-password"
+                                value={regForm.password} onChange={cambiarReg}
+                            />
+                            {errores.password && <span className="field-error">{errores.password}</span>}
+                        </div>
+
+                        <div className="login-field">
+                            <label className="login-label">Confirmar Contraseña *</label>
+                            <input
+                                className={`login-input${errores.confirmar ? ' input-error' : ''}`}
+                                type="password" name="confirmar" autoComplete="new-password"
+                                value={regForm.confirmar} onChange={cambiarReg}
+                            />
+                            {errores.confirmar && <span className="field-error">{errores.confirmar}</span>}
+                        </div>
+
+                        <div className="login-field">
+                            <label className="login-label">Carrera *</label>
+                            <select
+                                className={`login-input${errores.carrera_id ? ' input-error' : ''}`}
+                                name="carrera_id"
+                                value={regForm.carrera_id} onChange={cambiarReg}
+                            >
+                                <option value="">Selecciona tu carrera</option>
+                                {carreras.map(c => (
+                                    <option key={c.id} value={c.id}>{c.nombre}</option>
+                                ))}
                             </select>
+                            {errores.carrera_id && <span className="field-error">{errores.carrera_id}</span>}
                         </div>
-                    )}
 
-                    <button className="login-btn-main" type="submit">
-                        {isLogin ? 'Entrar' : 'Registrarme'}
-                    </button>
-                </form>
+                        <div className="login-field">
+                            <label className="login-label">Rol asignado</label>
+                            <input className="login-input" type="text" value="Estudiante" disabled
+                                style={{ background: '#f0f0f0', cursor: 'not-allowed' }} />
+                        </div>
 
-                {/* Botón para alternar entre Login y Registro */}
+                        <button className="login-btn-main" type="submit" disabled={cargando}>
+                            {cargando ? 'Registrando...' : 'Registrarme'}
+                        </button>
+                    </form>
+                )}
+
                 <button
-                    onClick={() => setIsLogin(!isLogin)}
+                    onClick={() => { setIsLogin(!isLogin); setError(''); setErrores({}) }}
                     className="login-btn-switch"
                 >
-                    {isLogin ? '¿No tienes cuenta? Regístrate aquí' : '¿Ya tienes cuenta? Inicia sesión'}
+                    {isLogin
+                        ? '¿No tienes cuenta? Regístrate aquí'
+                        : '¿Ya tienes cuenta? Inicia sesión'}
                 </button>
-
-                {isLogin && (
-                    <div className="login-demo-info">
-                        <p>Demo: admin1@itq.edu.ec / admin123</p>
-                    </div>
-                )}
             </div>
         </div>
     )

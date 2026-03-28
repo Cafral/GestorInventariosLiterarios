@@ -7,23 +7,22 @@ import java.net.InetSocketAddress;
 
 public class Main {
     public static void main(String[] args) throws Exception {
-
-        // Render asigna el puerto via variable de entorno PORT
         int port = System.getenv("PORT") != null
                 ? Integer.parseInt(System.getenv("PORT"))
                 : 8080;
 
         HttpServer server = HttpServer.create(new InetSocketAddress(port), 0);
 
-        server.createContext("/obras", new ObraController());
-        server.createContext("/usuarios", new UsuarioController());
+        server.createContext("/obras",      new ObraController());
+        server.createContext("/usuarios",   new UsuarioController());
         server.createContext("/inventario", new InventarioController());
-        // Nuevas rutas
-        server.createContext("/carreras", new CarreraController());
-        server.createContext("/autores", new AutorController());
+        server.createContext("/carreras",   new CarreraController());
+        server.createContext("/autores",    new AutorController());
+        // ImagenController y StaticFileController ya NO se necesitan
+        // La imagen va como base64 dentro del JSON de /obras
 
         server.setExecutor(null);
         server.start();
-        System.out.println("Servidor ITQ corriendo en " + port);
+        System.out.println("Servidor ITQ corriendo en puerto " + port);
     }
 }

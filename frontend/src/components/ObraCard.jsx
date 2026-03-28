@@ -2,7 +2,7 @@ import { Link } from 'react-router-dom'
 import { QRCodeSVG } from 'qrcode.react'
 import { obrasApi } from '../api/apiClient'
 import { useState } from 'react'
-import '../estilos/ObraCard.css'; // Importamos el archivo de estilos número dos
+import '../estilos/ObraCard.css';
 
 export default function ObraCard({ obra, onActualizar }) {
     const [votado, setVotado] = useState(false)
@@ -73,16 +73,11 @@ export default function ObraCard({ obra, onActualizar }) {
                     size={88}
                     fgColor="#000000"
                 />
-                <p className="obra-card-qr-text">Escanea para ver / comprar</p>
+                <p className="obra-card-qr-text">Escanea para ver</p>
             </div>
 
             <div className="obra-card-buttons-group">
                 <Link to={`/obras/${obra.id}`} className="obra-card-btn-view">Ver más</Link>
-                {!votado && (
-                    <button className="obra-card-btn-rate" onClick={() => handleVotar(5)}>
-                        ⭐ Valorar
-                    </button>
-                )}
             </div>
         </div>
     )

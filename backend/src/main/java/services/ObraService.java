@@ -120,14 +120,28 @@ public class ObraService {
     }
 
     public boolean eliminar(int id) throws SQLException {
+        if (!existeObra(id)) return false;
+
+        // Primero eliminar registros dependientes para no violar FK
+        try (PreparedStatement ps = conn().prepareStatement(
+                "DELETE FROM transacciones WHERE obra_id = ?")) {
+            ps.setInt(1, id);
+            ps.executeUpdate();
+        }
+
+        try (PreparedStatement ps = conn().prepareStatement(
+                "DELETE FROM estados_obra WHERE obra_id = ?")) {
+            ps.setInt(1, id);
+            ps.executeUpdate();
+        }
+
+        // Ahora sí se puede eliminar la obra
         try (PreparedStatement ps = conn().prepareStatement(
                 "DELETE FROM obras WHERE id = ?")) {
             ps.setInt(1, id);
             return ps.executeUpdate() > 0;
         }
     }
-
-    // ── helpers ───────────────────────────────────────────
 
     private List<Map<String, Object>> obtenerEstados(int obraId) throws SQLException {
         try (PreparedStatement ps = conn().prepareStatement(

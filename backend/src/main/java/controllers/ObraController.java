@@ -3,7 +3,6 @@ package controllers;
 import com.google.gson.Gson;
 import com.sun.net.httpserver.HttpExchange;
 import com.sun.net.httpserver.HttpHandler;
-
 import config.Cors;
 import services.ObraService;
 
@@ -36,31 +35,53 @@ public class ObraController implements HttpHandler {
                 int id = Integer.parseInt(path.split("/")[2]);
                 Map<String, Object> obra = service.buscarPorId(id);
                 if (obra != null) send(ex, 200, gson.toJson(obra));
-                else              send(ex, 404, "{\"error\":\"Obra no encontrada\"}");
+                else send(ex, 404, "{\"error\":\"Obra no encontrada\"}");
 
             } else if (method.equals("POST") && path.equals("/obras")) {
-                Map<?, ?> data = gson.fromJson(new String(ex.getRequestBody().readAllBytes()), Map.class);
+                // Importante: el body puede ser grande (imagen base64 ~1-2MB en texto)
+                // Por eso leemos todos los bytes antes de parsear
+                byte[] bodyBytes = ex.getRequestBody().readAllBytes();
+                Map<?, ?> data = gson.fromJson(new String(bodyBytes, "UTF-8"), Map.class);
+
+                String titulo    = str(data, "titulo");
+                String isbn13    = str(data, "isbn13");
+                String editorial = str(data, "editorial");
+
+                if (titulo.isBlank())
+                { send(ex, 400, "{\"error\":\"El título es obligatorio\"}"); return; }
+                if (isbn13.isBlank())
+                { send(ex, 400, "{\"error\":\"El ISBN-13 es obligatorio\"}"); return; }
+                if (editorial.isBlank())
+                { send(ex, 400, "{\"error\":\"La editorial es obligatoria\"}"); return; }
+                if (num(data, "carreraId") <= 0)
+                { send(ex, 400, "{\"error\":\"Debes seleccionar una carrera\"}"); return; }
+                if (num(data, "autorId") <= 0)
+                { send(ex, 400, "{\"error\":\"Debes seleccionar un autor\"}"); return; }
+
+                // imagen_url llega como "data:image/jpeg;base64,/9j/..."
+                // Se guarda tal cual en la columna TEXT de la BD
+                // El frontend lo usa directamente en <img src="data:image/jpeg;base64,..." />
                 String resultado = service.crearObra(
-                        str(data, "titulo"),    str(data, "genero"),
-                        str(data, "isbn13"),    str(data, "plataforma"),
-                        dbl(data, "precioAdquisicion"),
+                        titulo, str(data, "genero"), isbn13,
+                        str(data, "plataforma"), dbl(data, "precioAdquisicion"),
                         num(data, "carreraId"), num(data, "autorId"),
-                        str(data, "editorial"), num(data, "anio"),
-                        str(data, "imagen_url")
+                        editorial, num(data, "anio"), str(data, "imagen_url")
                 );
                 send(ex, resultado.startsWith("ERROR") ? 400 : 201,
                         "{\"resultado\":\"" + resultado + "\"}");
 
             } else if (method.equals("PUT") && path.matches("/obras/\\d+/estado")) {
                 int id = Integer.parseInt(path.split("/")[2]);
-                Map<?, ?> data = gson.fromJson(new String(ex.getRequestBody().readAllBytes()), Map.class);
+                Map<?, ?> data = gson.fromJson(
+                        new String(ex.getRequestBody().readAllBytes()), Map.class);
                 boolean ok = service.cambiarEstado(id, str(data, "estado"),
                         str(data, "responsable"), str(data, "notas"));
                 send(ex, ok ? 200 : 404, "{\"ok\":" + ok + "}");
 
             } else if (method.equals("POST") && path.matches("/obras/\\d+/valorar")) {
                 int id = Integer.parseInt(path.split("/")[2]);
-                Map<?, ?> data = gson.fromJson(new String(ex.getRequestBody().readAllBytes()), Map.class);
+                Map<?, ?> data = gson.fromJson(
+                        new String(ex.getRequestBody().readAllBytes()), Map.class);
                 boolean ok = service.valorar(id, num(data, "puntuacion"));
                 send(ex, ok ? 200 : 400, "{\"ok\":" + ok + "}");
 
@@ -72,7 +93,6 @@ public class ObraController implements HttpHandler {
             } else {
                 send(ex, 404, "{\"error\":\"Ruta no encontrada\"}");
             }
-
         } catch (Exception e) {
             send(ex, 500, "{\"error\":\"" + e.getMessage() + "\"}");
         }
@@ -88,13 +108,7 @@ public class ObraController implements HttpHandler {
         } catch (IOException ignored) {}
     }
 
-    private String str(Map<?, ?> m, String k) {
-        Object v = m.get(k); return v != null ? v.toString() : "";
-    }
-    private int num(Map<?, ?> m, String k) {
-        Object v = m.get(k); return v instanceof Number n ? n.intValue() : 0;
-    }
-    private double dbl(Map<?, ?> m, String k) {
-        Object v = m.get(k); return v instanceof Number n ? n.doubleValue() : 0.0;
-    }
+    private String str(Map<?, ?> m, String k) { Object v = m.get(k); return v != null ? v.toString() : ""; }
+    private int    num(Map<?, ?> m, String k) { Object v = m.get(k); return v instanceof Number n ? n.intValue() : 0; }
+    private double dbl(Map<?, ?> m, String k) { Object v = m.get(k); return v instanceof Number n ? n.doubleValue() : 0.0; }
 }

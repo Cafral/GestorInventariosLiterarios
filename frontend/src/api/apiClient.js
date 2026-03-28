@@ -20,6 +20,7 @@ export const obrasApi = {
     listar: () => req('/obras'),
     listarCarrera: (id) => req(`/obras?carreraId=${id}`),
     buscar: (id) => req(`/obras/${id}`),
+    // imagen_url va como base64 dentro del JSON — sin FormData, sin multipart
     crear: (body) => post('/obras', body),
     cambiarEstado: (id, body) => put(`/obras/${id}/estado`, body),
     valorar: (id, pts) => post(`/obras/${id}/valorar`, { puntuacion: pts }),
@@ -29,7 +30,8 @@ export const obrasApi = {
 export const usuariosApi = {
     listar: () => req('/usuarios'),
     registrar: (body) => post('/usuarios/registro', body),
-    login: (body) => post('/usuarios/login', body)
+    login: (body) => post('/usuarios/login', body),
+    crearPorAdmin: (body) => post('/usuarios/admin/crear', body)
 }
 
 export const inventarioApi = {
@@ -38,4 +40,14 @@ export const inventarioApi = {
     reporte: () => req('/inventario/reporte'),
     transacciones: () => req('/inventario/transacciones'),
     transaccionesObra: (id) => req(`/inventario/transacciones/${id}`)
+}
+
+export const carrerasApi = {
+    listar: () => req('/carreras')
+}
+
+export const autoresApi = {
+    listar: () => req('/autores'),
+    crear: (body) => post('/autores', body),
+    eliminar: (id)   => del(`/autores/${id}`)
 }

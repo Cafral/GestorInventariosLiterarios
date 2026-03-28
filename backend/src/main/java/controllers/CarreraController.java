@@ -9,23 +9,20 @@ import services.CarreraService;
 import java.io.IOException;
 
 public class CarreraController implements HttpHandler {
-
     private final CarreraService service = new CarreraService();
     private final Gson gson = new Gson();
 
     @Override
     public void handle(HttpExchange ex) throws IOException {
         try {
-            if (Cors.handlePreflight(ex))return;
+            if (Cors.handlePreflight(ex)) return;
             Cors.addHeaders(ex);
 
-            String method = ex.getRequestMethod();
-            String path = ex.getRequestURI().getPath();
-
-            if (method.equals("GET") && path.equals("/carreras")) {
-                send(ex, 200, gson.toJson((service.listarTodas())));
+            if (ex.getRequestMethod().equals("GET") &&
+                    ex.getRequestURI().getPath().equals("/carreras")) {
+                send(ex, 200, gson.toJson(service.listarTodas()));
             } else {
-                send(ex, 404, "{\\\"error\\\":\\\"Ruta no encontrada\\\"}");
+                send(ex, 404, "{\"error\":\"Ruta no encontrada\"}");
             }
         } catch (Exception e) {
             send(ex, 500, "{\"error\":\"" + e.getMessage() + "\"}");
