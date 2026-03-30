@@ -44,6 +44,7 @@ export default function LoginPage() {
     const validarRegistro = () => {
         const e = {}
         if (!regForm.nombre.trim()) e.nombre = 'El nombre es obligatorio'
+        else if (!/^[a-zA-ZáéíóúÁÉÍÓÚñÑüÜ\s]+$/.test(form.nombre)) e.nombre = 'El nombre solo puede contener letras'
         if (!regForm.email.includes('@')) e.email = 'Email inválido'
         if (regForm.password.length < 6) e.password = 'Mínimo 6 caracteres'
         if (regForm.password !== regForm.confirmar) e.confirmar = 'Las contraseñas no coinciden'
@@ -161,7 +162,6 @@ export default function LoginPage() {
                                 className={`login-input${errores.nombre ? ' input-error' : ''}`}
                                 type="text" name="nombre" autoComplete="name"
                                 value={regForm.nombre} onChange={cambiarReg}
-                                onBlur={() => chequearEmailDuplicado(regForm.email)}
                             />
                             {errores.nombre && <span className="field-error">{errores.nombre}</span>}
                         </div>
@@ -172,7 +172,7 @@ export default function LoginPage() {
                                 className={`login-input${errores.email ? ' input-error' : ''}`}
                                 type="email" name="email" autoComplete="email"
                                 value={regForm.email} onChange={cambiarReg}
-                            />
+                                onBlur={() => chequearEmailDuplicado(regForm.email)} />
                             {errores.email && <span className="field-error">{errores.email}</span>}
                         </div>
 

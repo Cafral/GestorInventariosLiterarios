@@ -143,7 +143,16 @@ export default function AdminObrasPage() {
   // ── Crear autor
   const validarAutor = () => {
     const e = {}
-    if (!autorForm.nombre.trim()) e.nombre = 'El nombre es obligatorio'
+    if (!autorForm.nombre.trim())
+      e.nombre = 'El nombre es obligatorio'
+    else if (!/^[a-zA-ZáéíóúÁÉÍÓÚñÑüÜ\s]+$/.test(autorForm.nombre))
+      e.nombre = 'El nombre solo puede contener letras y espacios'
+    else if (autorForm.nombre.trim().length < 3)
+      e.nombre = 'El nombre debe tener al menos 3 caracteres'
+    if (autorForm.email && !autorForm.email.includes('@'))
+      e.email = 'El email debe contener @'
+    else if (autorForm.email && !/^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(autorForm.email))
+      e.email = 'Ingresa un email válido (ej: autor@mail.com)'
     return e
   }
 
@@ -375,7 +384,12 @@ export default function AdminObrasPage() {
           <div className="admin-form-group">
             <label className="admin-label">Email</label>
             <input name="email" type="email" className="admin-input"
-              value={autorForm.email} onChange={cambiarAutor} />
+              value={autorForm.email} onChange={cambiarAutor}
+              onBlur={() => {
+                if (autorForm.email && !autorForm.email.includes('@')) {
+                  setErrores(er => ({ ...er, email: 'El email debe contener @' }))
+                }
+              }} />
           </div>
 
           <div className="admin-form-group">

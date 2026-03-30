@@ -39,7 +39,6 @@ export default function InventarioPage() {
         if (!lote.costoNuevo) e.costoNuevo = 'El costo es obligatorio'
         else if (!/^\d+(\.\d{1,2})?$/.test(lote.costoNuevo)) e.costoNuevo = 'Solo números válidos (ej: 12 o 12.50)'
         else if (parseFloat(lote.costoNuevo) <= 0) e.costoNuevo = 'El costo debe ser mayor a 0'
-
         return e
     }
 
