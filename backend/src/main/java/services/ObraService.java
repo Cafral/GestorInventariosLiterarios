@@ -15,11 +15,36 @@ public class ObraService {
         return DatabaseConexion.getInstance().getConexion();
     }
 
-    public String crearObra(String titulo, String genero, String isbn13, String plataforma, double costoAdq,
-                            int carreraId, int autorId, String editorial, int anio, String imagenUrl) throws SQLException{
+    // ── Verifica si un ISBN o título ya existen en la BD
+    public boolean existeObra(String isbn13, String titulo) throws SQLException {
+        // Verifica por ISBN
+        if (!isbn13.isBlank()) {
+            try (PreparedStatement ps = conn().prepareStatement(
+                    "SELECT 1 FROM obras WHERE isbn13 = ?")) {
+                ps.setString(1, isbn13.trim());
+                if (ps.executeQuery().next())
+                    return true;
+            }
+        }
+        // Verifica por título
+        if (!titulo.isBlank()) {
+            try (PreparedStatement ps = conn().prepareStatement(
+                    "SELECT 1 FROM obras WHERE LOWER(titulo) = LOWER(?)")) {
+                ps.setString(1, titulo.trim());
+                if (ps.executeQuery().next())
+                    return true;
+            }
+        }
+        return false;
+    }
 
-        if (!val.validarISBN13(isbn13)) return "ERROR: ISBN-13 invalido";
-        if (!val.validarAPA(titulo, String.valueOf(autorId), editorial, anio)) return "ERROR: Datos APA incompletos";
+    public String crearObra(String titulo, String genero, String isbn13, String plataforma, double costoAdq,
+            int carreraId, int autorId, String editorial, int anio, String imagenUrl) throws SQLException {
+
+        if (!val.validarISBN13(isbn13))
+            return "ERROR: ISBN-13 invalido";
+        if (!val.validarAPA(titulo, String.valueOf(autorId), editorial, anio))
+            return "ERROR: Datos APA incompletos";
 
         double pvp = Math.round(costoAdq * 1.30 * 100.0) / 100.0;
 
@@ -27,7 +52,7 @@ public class ObraService {
                 INSERT INTO obras (titulo, genero, isbn13, plataforma, precio_adquisicion, pvp, stock_actual,
                 rating_promedio, total_votos, imagen_url, carrera_id, autor_id, editorial, anio) VALUES (?,?,?,?,?,?,0,0,0,?,?,?,?,?)""";
         int obraId;
-        try (PreparedStatement ps = conn().prepareStatement(sql, Statement.RETURN_GENERATED_KEYS)){
+        try (PreparedStatement ps = conn().prepareStatement(sql, Statement.RETURN_GENERATED_KEYS)) {
             ps.setString(1, titulo);
             ps.setString(2, genero);
             ps.setString(3, isbn13);
@@ -51,7 +76,8 @@ public class ObraService {
     }
 
     public boolean cambiarEstado(int obraId, String estado, String responsable, String notas) throws SQLException {
-        if (!existeObra(obraId)) return false;
+        if (!existeObra(obraId))
+            return false;
         insertarEstado(obraId, estado, responsable, notas);
         return true;
     }
@@ -59,7 +85,7 @@ public class ObraService {
     private void insertarEstado(int obraId, String estado, String notas, String cambiado) throws SQLException {
         String sql = """
                 INSERT INTO estados_obra (obra_id, estado, notas, cambiado_por) VALUES (?,?,?,?)""";
-        try (PreparedStatement ps = conn().prepareStatement(sql)){
+        try (PreparedStatement ps = conn().prepareStatement(sql)) {
             ps.setInt(1, obraId);
             ps.setString(2, estado);
             ps.setString(3, notas);
@@ -69,38 +95,35 @@ public class ObraService {
     }
 
     public boolean valorar(int obraId, int puntuacion) throws SQLException {
-        if (puntuacion < 1 || puntuacion > 5) return false;
+        if (puntuacion < 1 || puntuacion > 5)
+            return false;
         String sql = """
                 UPDATE obras SET rating_promedio = ROUND((rating_promedio * total_votos + ? ) / (total_votos + 1), 1),
                 total_votos = total_votos + 1 WHERE id = ?""";
-        try (PreparedStatement ps = conn().prepareStatement(sql)){
+        try (PreparedStatement ps = conn().prepareStatement(sql)) {
             ps.setInt(1, puntuacion);
             ps.setInt(2, obraId);
             return ps.executeUpdate() > 0;
         }
     }
 
-
-    /*-----------------------------------------------------------------------------------------*/
-    /*NUEVA PARTE DE CODIGO, PARA LISTADO Y COMPLEMENTOS DE CODIGOS*/
-
     public List<Map<String, Object>> listarTodas() throws SQLException {
         return query("""
-            SELECT o.*,
-                   (SELECT estado FROM estados_obra
-                    WHERE obra_id = o.id ORDER BY fecha_cambio DESC LIMIT 1) AS estado_actual
-            FROM obras o ORDER BY rating_promedio DESC
-        """);
+                    SELECT o.*,
+                           (SELECT estado FROM estados_obra
+                            WHERE obra_id = o.id ORDER BY fecha_cambio DESC LIMIT 1) AS estado_actual
+                    FROM obras o ORDER BY rating_promedio DESC
+                """);
     }
 
     public List<Map<String, Object>> listarPorCarrera(int carreraId) throws SQLException {
         String sql = """
-            SELECT o.*,
-                   (SELECT estado FROM estados_obra
-                    WHERE obra_id = o.id ORDER BY fecha_cambio DESC LIMIT 1) AS estado_actual
-            FROM obras o WHERE o.carrera_id = ?
-            ORDER BY rating_promedio DESC
-        """;
+                    SELECT o.*,
+                           (SELECT estado FROM estados_obra
+                            WHERE obra_id = o.id ORDER BY fecha_cambio DESC LIMIT 1) AS estado_actual
+                    FROM obras o WHERE o.carrera_id = ?
+                    ORDER BY rating_promedio DESC
+                """;
         try (PreparedStatement ps = conn().prepareStatement(sql)) {
             ps.setInt(1, carreraId);
             return resultToList(ps.executeQuery());
@@ -112,7 +135,8 @@ public class ObraService {
                 "SELECT * FROM obras WHERE id = ?")) {
             ps.setInt(1, id);
             ResultSet rs = ps.executeQuery();
-            if (!rs.next()) return null;
+            if (!rs.next())
+                return null;
             Map<String, Object> obra = rowToMap(rs);
             obra.put("historialEstados", obtenerEstados(id));
             return obra;
@@ -120,7 +144,8 @@ public class ObraService {
     }
 
     public boolean eliminar(int id) throws SQLException {
-        if (!existeObra(id)) return false;
+        if (!existeObra(id))
+            return false;
 
         // Primero eliminar registros dependientes para no violar FK
         try (PreparedStatement ps = conn().prepareStatement(
@@ -135,7 +160,7 @@ public class ObraService {
             ps.executeUpdate();
         }
 
-        // Ahora sí se puede eliminar la obra
+        // Ahora sí elimina la obra
         try (PreparedStatement ps = conn().prepareStatement(
                 "DELETE FROM obras WHERE id = ?")) {
             ps.setInt(1, id);
@@ -168,7 +193,8 @@ public class ObraService {
     private List<Map<String, Object>> resultToList(ResultSet rs) throws SQLException {
         List<Map<String, Object>> lista = new ArrayList<>();
         ResultSetMetaData meta = rs.getMetaData();
-        while (rs.next()) lista.add(rowToMap(rs, meta));
+        while (rs.next())
+            lista.add(rowToMap(rs, meta));
         return lista;
     }
 
@@ -177,7 +203,7 @@ public class ObraService {
     }
 
     private Map<String, Object> rowToMap(ResultSet rs,
-                                         ResultSetMetaData meta) throws SQLException {
+            ResultSetMetaData meta) throws SQLException {
         Map<String, Object> map = new LinkedHashMap<>();
         for (int i = 1; i <= meta.getColumnCount(); i++)
             map.put(meta.getColumnName(i), rs.getObject(i));

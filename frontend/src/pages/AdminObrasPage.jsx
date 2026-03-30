@@ -32,7 +32,29 @@ export default function AdminObrasPage() {
   }
   useEffect(() => { cargar() }, [])
 
-  // ── Imagen a base64 ───────────────────────────────────────
+  // ── Verificaciones de duplicados
+  const chequearISBN = async (valor) => {
+    const yaExiste = await verificarDuplicado('/obras/existe?isbn13=', valor)
+    if (yaExiste) {
+      setErrores(er => ({ ...er, isbn13: 'Este ISBN-13 ya está registrado en el sistema' }))
+    }
+  }
+
+  const chequearTitulo = async (valor) => {
+    const yaExiste = await verificarDuplicado('/obras/existe?titulo=', valor)
+    if (yaExiste) {
+      setErrores(er => ({ ...er, titulo: 'Ya existe una obra con este título' }))
+    }
+  }
+
+  const chequearNombreAutor = async (valor) => {
+    const yaExiste = await verificarDuplicado('/autores/existe?nombre=', valor)
+    if (yaExiste) {
+      setErrores(er => ({ ...er, nombre: 'Ya existe un autor con este nombre' }))
+    }
+  }
+
+  // Imagen a base64
   const handleImagen = (e) => {
     const file = e.target.files[0]
     if (!file) return
@@ -60,7 +82,7 @@ export default function AdminObrasPage() {
     setErrores(er => ({ ...er, imagen: '' }))
   }
 
-  // ── Validaciones obra ─────────────────────────────────────
+  // Validaciones obra
   const validarObra = () => {
     const e = {}
     if (!form.titulo.trim()) e.titulo = 'El título es obligatorio'
@@ -73,7 +95,7 @@ export default function AdminObrasPage() {
     return e
   }
 
-  // ── Crear obra ────────────────────────────────────────────
+  // ── Crear obra
   const handleCrear = async (e) => {
     e.preventDefault()
     setMsg('')
@@ -92,7 +114,7 @@ export default function AdminObrasPage() {
       if (String(resultado).startsWith('ERROR')) {
         setMsg('ERROR: ' + resultado)
       } else {
-        setMsg('✓ Obra creada con ID: ' + resultado)
+        setMsg('Obra creada con ID: ' + resultado)
         setForm(OBRA_INIT)
         setPreviewImg(null)
         cargar()
@@ -102,7 +124,7 @@ export default function AdminObrasPage() {
     }
   }
 
-  // ── Estado y eliminar obra ────────────────────────────────
+  // ── Estado y eliminar obra
   const handleEstado = async (id, estado) => {
     try {
       await obrasApi.cambiarEstado(id, {
@@ -118,7 +140,7 @@ export default function AdminObrasPage() {
     cargar()
   }
 
-  // ── Crear autor ───────────────────────────────────────────
+  // ── Crear autor
   const validarAutor = () => {
     const e = {}
     if (!autorForm.nombre.trim()) e.nombre = 'El nombre es obligatorio'
@@ -136,7 +158,7 @@ export default function AdminObrasPage() {
       if (String(res.resultado).startsWith('ERROR')) {
         setMsgAutor('ERROR: ' + res.resultado)
       } else {
-        setMsgAutor('✓ Autor registrado correctamente')
+        setMsgAutor('Autor registrado correctamente')
         setAutorForm(AUTOR_INIT)
         autoresApi.listar().then(setAutores)
       }
@@ -145,12 +167,12 @@ export default function AdminObrasPage() {
     }
   }
 
-  // ── Eliminar autor ────────────────────────────────────────
+  // ── Eliminar autor
   const handleEliminarAutor = async (id, nombre) => {
     if (!confirm(`¿Eliminar al autor "${nombre}"?\nSi tiene obras asociadas no se podrá eliminar.`)) return
     try {
       await autoresApi.eliminar(id)
-      setMsgAutor('✓ Autor eliminado correctamente')
+      setMsgAutor('Autor eliminado correctamente')
       autoresApi.listar().then(setAutores)
     } catch (err) {
       setMsgAutor('ERROR: ' + err.message)
@@ -183,7 +205,7 @@ export default function AdminObrasPage() {
         </button>
       </div>
 
-      {/* ══════════ TAB OBRAS ══════════ */}
+      {/* TAB OBRAS */}
       {tabActiva === 'obras' && (<>
         <h3 className="admin-subtitle">Registrar Nueva Obra</h3>
         <form onSubmit={handleCrear} className="admin-form-grid" noValidate>
@@ -192,7 +214,8 @@ export default function AdminObrasPage() {
             <label className="admin-label">Título *</label>
             <input name="titulo" type="text"
               className={`admin-input${errores.titulo ? ' input-error' : ''}`}
-              value={form.titulo} onChange={cambiar} />
+              value={form.titulo} onChange={cambiar}
+              onBlur={() => chequearTitulo(form.titulo)} />
             {errores.titulo && <span className="field-error">{errores.titulo}</span>}
           </div>
 
@@ -206,7 +229,8 @@ export default function AdminObrasPage() {
             <label className="admin-label">ISBN-13 *</label>
             <input name="isbn13" type="text"
               className={`admin-input${errores.isbn13 ? ' input-error' : ''}`}
-              value={form.isbn13} onChange={cambiar} />
+              value={form.isbn13} onChange={cambiar}
+              onBlur={() => chequearISBN(form.isbn13)} />
             {errores.isbn13 && <span className="field-error">{errores.isbn13}</span>}
           </div>
 
@@ -280,7 +304,7 @@ export default function AdminObrasPage() {
               <div className="admin-image-preview">
                 <img src={previewImg} alt="Vista previa" className="admin-preview-img" />
                 <button type="button" onClick={quitarImagen} className="admin-btn-remove-img">
-                  ✕ Quitar imagen
+                  X Quitar imagen
                 </button>
               </div>
             )}
@@ -334,7 +358,7 @@ export default function AdminObrasPage() {
         </div>
       </>)}
 
-      {/* ══════════ TAB AUTORES ══════════ */}
+      {/* TAB AUTORES */}
       {tabActiva === 'autores' && (<>
         <h3 className="admin-subtitle">Registrar Nuevo Autor</h3>
         <form onSubmit={handleCrearAutor} className="admin-form-grid" noValidate>
@@ -343,7 +367,8 @@ export default function AdminObrasPage() {
             <label className="admin-label">Nombre Completo *</label>
             <input name="nombre" type="text"
               className={`admin-input${errores.nombre ? ' input-error' : ''}`}
-              value={autorForm.nombre} onChange={cambiarAutor} />
+              value={autorForm.nombre} onChange={cambiarAutor}
+              onBlur={() => chequearNombreAutor(autorForm.nombre)} />
             {errores.nombre && <span className="field-error">{errores.nombre}</span>}
           </div>
 
@@ -392,7 +417,7 @@ export default function AdminObrasPage() {
                       className="admin-btn-delete"
                       onClick={() => handleEliminarAutor(a.id, a.nombre)}
                       title="Eliminar autor">
-                      ✕
+                      X
                     </button>
                   </td>
                 </tr>

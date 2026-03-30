@@ -22,6 +22,15 @@ public class UsuarioService {
         return BCrypt.verifyer().verify(password.toCharArray(), hash).verified;
     }
 
+    // Verifica si un email ya existe en la BD
+    public boolean existeEmail(String email) throws SQLException {
+        try (PreparedStatement ps = conn().prepareStatement(
+                "SELECT 1 FROM usuarios WHERE LOWER(email) = LOWER(?)")) {
+            ps.setString(1, email.trim());
+            return ps.executeQuery().next();
+        }
+    }
+
     public String registrar(String nombre, String email, String password, String rol, int carrera_id)
             throws SQLException {
         // Validacion de rol
@@ -65,7 +74,6 @@ public class UsuarioService {
 
             if (rs.next()) {
                 String hashEnDB = rs.getString("password_hash");
-                // 3. ¡AQUÍ ESTÁ EL SECRETO! Usamos la función verificar de BCrypt
                 if (verificar(password, hashEnDB)) {
                     // Si coincide, armamos el mapa del usuario
                     Map<String, Object> u = new LinkedHashMap<>();

@@ -10,7 +10,7 @@ export default function DashboardPage() {
     const [cargando, setCargando] = useState(true)
     const [error, setError] = useState('')
 
-    // Carga las 17 carreras desde la BD
+    // Carga carreras desde la BD
     useEffect(() => {
         carrerasApi.listar().then(setCarreras).catch(() => { })
     }, [])

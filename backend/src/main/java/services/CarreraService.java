@@ -13,9 +13,8 @@ public class CarreraService {
     public List<Map<String, Object>> listarTodas() throws SQLException {
         List<Map<String, Object>> lista = new ArrayList<>();
         try (Statement st = conn().createStatement();
-             ResultSet rs = st.executeQuery(
-                     "SELECT id, nombre, codigo FROM carreras ORDER BY nombre"
-             )){
+                ResultSet rs = st.executeQuery(
+                        "SELECT id, nombre, codigo FROM carreras ORDER BY nombre")) {
             while (rs.next()) {
                 Map<String, Object> c = new LinkedHashMap<>();
                 c.put("id", rs.getInt("id"));

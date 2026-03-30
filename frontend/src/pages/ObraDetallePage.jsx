@@ -25,8 +25,8 @@ export default function ObraDetallePage() {
 
     return (
         <div className="detail-page-container">
-            {/* Link de retorno con estilo de flecha */}
-            <Link to="/" className="detail-back-link">← Volver al Repositorio</Link>
+            {/* Link de retorno */}
+            <Link to="/" className="detail-back-link">Volver al Repositorio</Link>
 
             <h2 className="detail-main-title">{obra.titulo}</h2>
 
@@ -76,21 +76,6 @@ export default function ObraDetallePage() {
                     </li>
                 ))}
             </ul>
-
-            {/* Sección del código QR para acceso rápido */}
-            <div className="detail-qr-section">
-                <h3 className="detail-section-subtitle">Código QR de acceso</h3>
-                <div className="detail-qr-container">
-                    <QRCodeSVG
-                        value={`${window.location.origin}/obras/${id}`}
-                        size={150}
-                        fgColor="#000000"
-                    />
-                </div>
-                <p className="detail-qr-footer-text">
-                    Escanea para ver el detalle
-                </p>
-            </div>
         </div>
     )
 }

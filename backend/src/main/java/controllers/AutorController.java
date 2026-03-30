@@ -16,15 +16,26 @@ public class AutorController implements HttpHandler {
     @Override
     public void handle(HttpExchange ex) throws IOException {
         try {
-            if (Cors.handlePreflight(ex)) return;
+            if (Cors.handlePreflight(ex))
+                return;
             Cors.addHeaders(ex);
 
             String method = ex.getRequestMethod();
-            String path   = ex.getRequestURI().getPath();
+            String path = ex.getRequestURI().getPath();
 
             if (method.equals("GET") && path.equals("/autores")) {
                 send(ex, 200, gson.toJson(service.listarTodos()));
+                // ── Verificar si un nombre ya existe
+            } else if (method.equals("GET") && path.equals("/autores/existe")) {
+                String query = ex.getRequestURI().getQuery();
+                String nombre = "";
+                if (query != null && query.startsWith("nombre=")) {
+                    nombre = java.net.URLDecoder.decode(query.split("=", 2)[1], "UTF-8");
+                }
+                boolean existe = service.existeNombre(nombre);
+                send(ex, 200, "{\"existe\":" + existe + "}");
 
+                // ── Crear nuevo autor
             } else if (method.equals("POST") && path.equals("/autores")) {
                 Map<?, ?> data = gson.fromJson(
                         new String(ex.getRequestBody().readAllBytes()), Map.class);
@@ -62,7 +73,8 @@ public class AutorController implements HttpHandler {
             ex.sendResponseHeaders(code, bytes.length);
             ex.getResponseBody().write(bytes);
             ex.getResponseBody().close();
-        } catch (IOException ignored) {}
+        } catch (IOException ignored) {
+        }
     }
 
     private String str(Map<?, ?> m, String k) {

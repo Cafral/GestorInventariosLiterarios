@@ -2,6 +2,7 @@ import { useState, useEffect } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { usuariosApi, carrerasApi } from '../api/apiClient'
 import { useAuth } from '../context/AuthContext'
+import { verificarDuplicado } from '../utils/VerificarDuplicado'
 import '../estilos/LoginPage.css'
 
 export default function LoginPage() {
@@ -23,7 +24,15 @@ export default function LoginPage() {
         carrerasApi.listar().then(setCarreras).catch(() => { })
     }, [])
 
-    // ── Validaciones ──────────────────────────────────────────
+    // ── Verificación de email duplicado
+    const chequearEmailDuplicado = async (valor) => {
+        const yaExiste = await verificarDuplicado('/usuarios/existe?email=', valor)
+        if (yaExiste) {
+            setErrores(er => ({ ...er, email: 'Este email ya está registrado en el sistema' }))
+        }
+    }
+
+    // ── Validaciones
     const validarLogin = () => {
         const e = {}
         if (!loginForm.email.trim()) e.email = 'El email es obligatorio'
@@ -42,7 +51,7 @@ export default function LoginPage() {
         return e
     }
 
-    // ── Submit login ──────────────────────────────────────────
+    // ── Submit login
     const handleLogin = async (e) => {
         e.preventDefault()
         setError('')
@@ -64,7 +73,7 @@ export default function LoginPage() {
         }
     }
 
-    // ── Submit registro (solo ESTUDIANTE) ────────────────────
+    // ── Submit registro (solo ESTUDIANTE)
     const handleRegistro = async (e) => {
         e.preventDefault()
         setError('')
@@ -78,7 +87,6 @@ export default function LoginPage() {
                 email: regForm.email.trim(),
                 password: regForm.password,
                 carrera_id: parseInt(regForm.carrera_id)
-                // rol forzado a ESTUDIANTE en el backend
             })
             alert('¡Registro exitoso! Ahora inicia sesión.')
             setIsLogin(true)
@@ -110,7 +118,7 @@ export default function LoginPage() {
 
                 {error && <p className="login-error-msg">{error}</p>}
 
-                {/* ── FORMULARIO LOGIN ── */}
+                {/* FORMULARIO LOGIN */}
                 {isLogin ? (
                     <form onSubmit={handleLogin} className="login-form" noValidate>
 
@@ -144,7 +152,7 @@ export default function LoginPage() {
                     </form>
 
                 ) : (
-                    /* ── FORMULARIO REGISTRO (ESTUDIANTE) ── */
+                    /* FORMULARIO REGISTRO (ESTUDIANTE) */
                     <form onSubmit={handleRegistro} className="login-form" noValidate>
 
                         <div className="login-field">
@@ -153,6 +161,7 @@ export default function LoginPage() {
                                 className={`login-input${errores.nombre ? ' input-error' : ''}`}
                                 type="text" name="nombre" autoComplete="name"
                                 value={regForm.nombre} onChange={cambiarReg}
+                                onBlur={() => chequearEmailDuplicado(regForm.email)}
                             />
                             {errores.nombre && <span className="field-error">{errores.nombre}</span>}
                         </div>
@@ -204,7 +213,7 @@ export default function LoginPage() {
 
                         <div className="login-field">
                             <label className="login-label">Rol asignado</label>
-                            <input className="login-input login-input-disabled" type="text" value="Estudiante" disabled/>
+                            <input className="login-input login-input-disabled" type="text" value="Estudiante" disabled />
                         </div>
 
                         <button className="login-btn-main" type="submit" disabled={cargando}>

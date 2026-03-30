@@ -18,7 +18,6 @@ public class Main {
         server.createContext("/inventario", new InventarioController());
         server.createContext("/carreras",   new CarreraController());
         server.createContext("/autores",    new AutorController());
-        // ImagenController y StaticFileController ya NO se necesitan
         // La imagen va como base64 dentro del JSON de /obras
 
         server.setExecutor(null);

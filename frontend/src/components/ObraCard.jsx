@@ -71,6 +71,7 @@ export default function ObraCard({ obra, onActualizar }) {
                 <QRCodeSVG
                     value={`${window.location.origin}/obras/${obra.id}`}
                     size={88}
+                    level={"M"} // Nivel de redundancia medio por si hay sombras
                     fgColor="#000000"
                 />
                 <p className="obra-card-qr-text">Escanea para ver</p>

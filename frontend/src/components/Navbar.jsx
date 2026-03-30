@@ -13,7 +13,7 @@ export default function NavBar() {
             <div className="navbar-links-group">
                 <Link to="/" className="navbar-link">Inicio</Link>
 
-                {/* Gestión de obras: ADMIN_TI y ADMIN_ACADEMICO */}
+                {/* Gestión de obras: ADMIN_TI */}
                 {(usuario?.rol === 'ADMIN_TI' || usuario?.rol === 'ADMIN_ACADEMICO') && (
                     <Link to="/admin/obras" className="navbar-link">Obras</Link>
                 )}

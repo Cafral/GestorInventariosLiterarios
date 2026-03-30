@@ -15,7 +15,8 @@ public class CarreraController implements HttpHandler {
     @Override
     public void handle(HttpExchange ex) throws IOException {
         try {
-            if (Cors.handlePreflight(ex)) return;
+            if (Cors.handlePreflight(ex))
+                return;
             Cors.addHeaders(ex);
 
             if (ex.getRequestMethod().equals("GET") &&
@@ -36,6 +37,7 @@ public class CarreraController implements HttpHandler {
             ex.sendResponseHeaders(code, bytes.length);
             ex.getResponseBody().write(bytes);
             ex.getResponseBody().close();
-        } catch (IOException ignored) {}
+        } catch (IOException ignored) {
+        }
     }
 }

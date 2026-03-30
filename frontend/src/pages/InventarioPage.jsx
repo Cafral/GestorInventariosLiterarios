@@ -29,12 +29,17 @@ export default function InventarioPage() {
 
     useEffect(() => { cargar() }, [cargar])
 
-    // ── Validaciones ──────────────────────────────────────────
+    // Validaciones
     const validarLote = () => {
         const e = {}
         if (!lote.obraId) e.obraId = 'Selecciona una obra'
-        if (!lote.cantidad || parseInt(lote.cantidad) <= 0) e.cantidad = 'Cantidad inválida (mínimo 1)'
-        if (!lote.costoNuevo || parseFloat(lote.costoNuevo) <= 0) e.costoNuevo = 'Ingresa un costo válido'
+        if (!lote.cantidad) e.cantidad = 'La cantidad es obligatoria'
+        else if (!/^\d+$/.test(lote.cantidad)) e.cantidad = 'La cantidad solo puede contener números enteros'
+        else if (parseInt(lote.cantidad) <= 0) e.cantidad = 'La cantidad debe ser mínimo 1'
+        if (!lote.costoNuevo) e.costoNuevo = 'El costo es obligatorio'
+        else if (!/^\d+(\.\d{1,2})?$/.test(lote.costoNuevo)) e.costoNuevo = 'Solo números válidos (ej: 12 o 12.50)'
+        else if (parseFloat(lote.costoNuevo) <= 0) e.costoNuevo = 'El costo debe ser mayor a 0'
+
         return e
     }
 
@@ -45,7 +50,7 @@ export default function InventarioPage() {
         return e
     }
 
-    // ── Ingresar lote ─────────────────────────────────────────
+    // ── Ingresar lote
     const handleLote = async (e) => {
         e.preventDefault()
         setMsg('')
@@ -57,7 +62,7 @@ export default function InventarioPage() {
                 obraId: parseInt(lote.obraId),
                 cantidad: parseInt(lote.cantidad),
                 costoNuevo: parseFloat(lote.costoNuevo),
-                usuarioId: usuario.id   // ← ID tomado de la sesión activa, no campo manual
+                usuarioId: usuario.id
             })
             setMsg(r.resultado)
             setLote({ obraId: '', cantidad: '', costoNuevo: '' })
@@ -65,7 +70,7 @@ export default function InventarioPage() {
         } catch (err) { setMsg('ERROR: ' + err.message) }
     }
 
-    // ── Registrar venta ───────────────────────────────────────
+    // ── Registrar venta 
     const handleVenta = async (e) => {
         e.preventDefault()
         setMsg('')
@@ -76,7 +81,7 @@ export default function InventarioPage() {
             const r = await inventarioApi.vender({
                 obraId: parseInt(venta.obraId),
                 cantidad: parseInt(venta.cantidad),
-                usuarioId: usuario.id   // ← ID tomado de la sesión activa
+                usuarioId: usuario.id
             })
             setMsg(r.resultado)
             setVenta({ obraId: '', cantidad: '' })
@@ -104,7 +109,7 @@ export default function InventarioPage() {
 
             <div className="inventory-forms-grid">
 
-                {/* ── Ingresar Lote ── */}
+                {/* Ingresar Lote */}
                 <div className="inventory-card-form">
                     <h3 className="inventory-form-title">Ingresar Lote</h3>
                     <form onSubmit={handleLote} className="inventory-form-element" noValidate>
@@ -140,7 +145,7 @@ export default function InventarioPage() {
                     </form>
                 </div>
 
-                {/* ── Registrar Venta ── */}
+                {/* Registrar Venta */}
                 <div className="inventory-card-form">
                     <h3 className="inventory-form-title">Registrar Venta</h3>
                     <form onSubmit={handleVenta} className="inventory-form-element" noValidate>

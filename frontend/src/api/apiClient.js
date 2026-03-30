@@ -49,5 +49,5 @@ export const carrerasApi = {
 export const autoresApi = {
     listar: () => req('/autores'),
     crear: (body) => post('/autores', body),
-    eliminar: (id)   => del(`/autores/${id}`)
+    eliminar: (id) => del(`/autores/${id}`)
 }

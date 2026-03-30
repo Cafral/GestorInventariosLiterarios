@@ -27,10 +27,19 @@ export default function GestionUsuariosPage() {
     }
     useEffect(() => { cargar() }, [])
 
-    // ── Validaciones ──────────────────────────────────────────
+    // ── Verificación de email duplicado
+    const chequearEmailDuplicado = async (valor) => {
+        const yaExiste = await verificarDuplicado('/usuarios/existe?email=', valor)
+        if (yaExiste) {
+            setErrores(er => ({ ...er, email: 'Este email ya está registrado en el sistema' }))
+        }
+    }
+
+    // ── Validaciones
     const validar = () => {
         const e = {}
         if (!form.nombre.trim()) e.nombre = 'El nombre es obligatorio'
+        else if (!/^[a-zA-ZáéíóúÁÉÍÓÚñÑüÜ\s]+$/.test(form.nombre)) e.nombre = 'El nombre solo puede contener letras'
         if (!form.email.includes('@')) e.email = 'Email inválido'
         if (form.password.length < 6) e.password = 'Mínimo 6 caracteres'
         if (form.password !== form.confirmar) e.confirmar = 'Las contraseñas no coinciden'
@@ -92,7 +101,8 @@ export default function GestionUsuariosPage() {
                     <label className="admin-label">Email *</label>
                     <input name="email" type="email"
                         className={`admin-input${errores.email ? ' input-error' : ''}`}
-                        value={form.email} onChange={cambiar} />
+                        value={form.email} onChange={cambiar}
+                        onBlur={() => chequearEmailDuplicado(form.email)} />
                     {errores.email && <span className="field-error">{errores.email}</span>}
                 </div>
 
